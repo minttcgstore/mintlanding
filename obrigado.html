@@ -7,7 +7,7 @@
 <meta name="description" content="Você está na lista de acesso antecipado da MiNT. Acompanhe nossas redes para novidades sobre Pokémon TCG.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --mint: #5BF5CB;
@@ -22,7 +22,7 @@
     --text-dim: rgba(242,251,248,0.62);
     --text-dimmer: rgba(242,251,248,0.4);
     --radius: 14px;
-    --display: 'Chakra Petch', sans-serif;
+    --display: 'Bricolage Grotesque', sans-serif;
     --body: 'Inter', sans-serif;
     --mono: 'JetBrains Mono', monospace;
   }
@@ -102,9 +102,9 @@
   }
   .logo{
     font-family:var(--display);
-    font-size:20px;
-    font-weight:700;
-    letter-spacing:0.02em;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:-0.01em;
     display:flex;
     align-items:center;
     gap:9px;
@@ -175,8 +175,9 @@
 
   .thank-card h1{
     font-family:var(--display);
-    font-size:clamp(28px, 4vw, 38px);
-    font-weight:600;
+    font-size:clamp(26px, 3.6vw, 34px);
+    font-weight:700;
+    letter-spacing:-0.01em;
     line-height:1.1;
     margin-bottom:16px;
   }
@@ -238,8 +239,10 @@
 
   .step-text h3{
     font-family:var(--display);
-    font-size:15px;
+    font-size:14px;
     font-weight:600;
+    letter-spacing:0em;
+    line-height:1.3;
     margin-bottom:2px;
   }
 
@@ -257,8 +260,10 @@
 
   .social-cta h3{
     font-family:var(--display);
-    font-size:15px;
+    font-size:14px;
     font-weight:600;
+    letter-spacing:0em;
+    line-height:1.3;
     margin-bottom:16px;
     color:var(--text-dim);
   }
@@ -334,7 +339,7 @@
     flex-wrap:wrap;
     gap:16px;
   }
-  footer .logo{ font-size:16px;}
+  footer .logo{ font-size:13px; letter-spacing:-0.01em; font-weight:600;}
   footer .logo img{ height:80px; }
   footer .fine{
     font-family:var(--mono);
@@ -373,9 +378,161 @@
     outline:2px solid var(--mint);
     outline-offset:3px;
   }
+
+  /* ---------- SCATTERED POKÉBALLS (background field) ---------- */
+  .pokeball-field{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    overflow:hidden;
+    pointer-events:none;
+  }
+
+  .pball{
+    position:absolute;
+    height:auto;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:5;
+    animation:pballDrift 16s ease-in-out infinite;
+  }
+
+  .pball .pball-hinge{ stroke-width:5; }
+  .pball .pball-core{ fill:var(--bg); stroke-width:5; }
+  .pball .pball-dot{ fill:currentColor; stroke:none; }
+
+  .pball--1{ top:8%;  left:6%;  width:64px;  color:var(--mint);   opacity:0.10; animation-delay:0s; }
+  .pball--2{ top:64%; left:3%;  width:40px;  color:var(--purple); opacity:0.09; animation-delay:-3s; transform:rotate(-18deg); }
+  .pball--3{ top:14%; left:88%; width:52px;  color:var(--gold);   opacity:0.08; animation-delay:-7s; transform:rotate(12deg); }
+  .pball--4{ top:78%; left:90%; width:70px;  color:var(--purple); opacity:0.10; animation-delay:-10s; transform:rotate(-6deg); }
+  .pball--5{ top:42%; left:94%; width:30px;  color:var(--mint);   opacity:0.12; animation-delay:-5s; }
+  .pball--6{ top:88%; left:18%; width:34px;  color:var(--gold);   opacity:0.08; animation-delay:-12s; transform:rotate(24deg); }
+  .pball--7{ top:4%;  left:42%; width:26px;  color:var(--mint);   opacity:0.09; animation-delay:-2s; }
+  .pball--8{ top:52%; left:50%; width:44px;  color:var(--purple); opacity:0.06; animation-delay:-9s; transform:rotate(-30deg); }
+
+  @keyframes pballDrift{
+    0%, 100%{ transform:translateY(0) rotate(var(--rot,0deg)); }
+    50%{ transform:translateY(-16px) rotate(var(--rot,0deg)); }
+  }
+
+  @media (max-width:640px){
+    .pball--5, .pball--7, .pball--8{ display:none; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .pball{ animation:none; }
+  }
+
+  /* ---------- EYEBROW TAG ---------- */
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 14px 6px 10px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(91,245,203,0.06);
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--mint-soft);
+    margin-bottom:20px;
+  }
+  .eyebrow svg{
+    width:16px;
+    height:16px;
+    color:var(--mint-soft);
+    flex-shrink:0;
+  }
+
+  /* ---------- CARD WATERMARK ---------- */
+  .card-watermark{
+    position:absolute;
+    top:-40px;
+    right:-40px;
+    width:220px;
+    height:220px;
+    color:var(--mint);
+    opacity:0.05;
+    stroke-width:3;
+    pointer-events:none;
+    transform:rotate(14deg);
+  }
+
+  /* ---------- POKÉBALL CHECKMARK ---------- */
+  .pokeball-check{
+    width:76px;
+    height:76px;
+    border-radius:50%;
+    position:relative;
+    margin:0 auto 28px;
+    background:linear-gradient(180deg,
+      var(--mint) 0%, var(--mint) 47%,
+      #0B1615 47%, #0B1615 53%,
+      var(--text) 53%, var(--text) 100%);
+    box-shadow:0 8px 32px -4px rgba(62,219,176,0.4), inset 0 0 0 3px #0B1615;
+    animation:popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .pball-button{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:var(--bg);
+    border:3px solid #0B1615;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 0 2px rgba(242,251,248,0.08);
+  }
+
+  .pball-button svg{
+    width:13px;
+    height:13px;
+    color:var(--mint-soft);
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .pokeball-check{ animation:none; }
+  }
+
+  /* ---------- INLINE POKÉBALL ICON (headings) ---------- */
+  .icon-pball{
+    width:15px;
+    height:15px;
+    color:var(--mint-soft);
+    margin-right:6px;
+    flex-shrink:0;
+    vertical-align:-2px;
+  }
 </style>
 </head>
 <body>
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="pokeball-icon" viewBox="0 0 100 100">
+    <circle class="pball-hinge" cx="50" cy="50" r="44" />
+    <path class="pball-hinge" d="M6 50 H38 M62 50 H94" />
+    <circle class="pball-core" cx="50" cy="50" r="13" />
+    <circle class="pball-dot" cx="50" cy="50" r="4" />
+  </symbol>
+</svg>
+
+<div class="pokeball-field" aria-hidden="true">
+  <svg class="pball pball--1" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--2" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--3" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--4" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--5" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--6" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--7" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--8" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+</div>
 
 <nav>
   <div class="wrap">
@@ -389,10 +546,21 @@
   <div class="wrap" style="display:flex; justify-content:center;">
     <div class="thank-card">
 
-      <div class="checkmark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
+      <svg class="card-watermark" viewBox="0 0 100 100" aria-hidden="true">
+        <use href="#pokeball-icon"></use>
+      </svg>
+
+      <div class="pokeball-check">
+        <span class="pball-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+      </div>
+
+      <div class="eyebrow">
+        <svg viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+        Acesso antecipado confirmado
       </div>
 
       <h1>
@@ -421,17 +589,17 @@
       </div>
 
       <div class="social-cta">
-        <h3>Acompanhe a MiNT</h3>
+        <h3><svg class="icon-pball" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>Acompanhe a MiNT</h3>
         <div class="social-links">
-          <a href="https://www.instagram.com/minttcg_/" class="social-link" target="_blank" rel="noopener">
+          <a href="#" class="social-link" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             Instagram
           </a>
-          <a href="https://www.tiktok.com/@mint.tcg" class="social-link" target="_blank" rel="noopener">
+          <a href="#" class="social-link" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.88-2.89 2.89 2.89 0 012.88-2.89c.3 0 .6.05.88.13v-3.5a6.37 6.37 0 00-.88-.06A6.34 6.34 0 005.3 15.7a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.8a8.16 8.16 0 004.77 1.52V6.8a4.85 4.85 0 01-3.16-1.11z"/></svg>
             TikTok
           </a>
-          <a href="https://www.youtube.com/@MiNT_TCGstore/shorts" class="social-link" target="_blank" rel="noopener">
+          <a href="#" class="social-link" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             YouTube
           </a>
