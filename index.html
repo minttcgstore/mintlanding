@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>MiNT TCG STORE.</title>
 <meta name="description" content="A MiNT está construindo o canal definitivo para comprar produtos fechados de Pokémon TCG online. Entre para a lista e seja avisado no lançamento.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,7 +43,12 @@
   body::after{
     content:'';
     position:fixed;
-    inset:0;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100%;
+    height:100%;
     background-image:
       radial-gradient(circle, rgba(91,245,203,0.035) 1px, transparent 1px);
     background-size:40px 40px;
@@ -55,9 +60,14 @@
   body::before{
     content:'';
     position:fixed;
-    inset:0;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100%;
+    height:100%;
     background:
-      url('https://kimi-web-img.moonshot.cn/img/mir-s3-cdn-cf.behance.net/6b9140379b90a9c9047187862b805e4fe07e55bc.gif') center center / 350px repeat,
+      url('https://kimi-web-img.moonshot.cn/img/mir-s3-cdn-cf.behance.net/6b9140379b90a9c9047187862b805e4fe07e55bc.gif') center center / 300px repeat,
       radial-gradient(ellipse 1200px 700px at 10% -10%, rgba(62,219,176,0.12), transparent 65%),
       radial-gradient(ellipse 1000px 600px at 95% 5%, rgba(139,127,214,0.12), transparent 65%),
       radial-gradient(ellipse 800px 500px at 50% 100%, rgba(255,214,107,0.06), transparent 60%);
@@ -75,6 +85,8 @@
     padding:0 28px;
     position:relative;
     z-index:2;
+    width:100%;
+    box-sizing:border-box;
   }
 
   .eyebrow{
@@ -111,6 +123,8 @@
     backdrop-filter:blur(14px);
     background:rgba(11,22,20,0.72);
     border-bottom:1px solid var(--line);
+    width:100%;
+    overflow:hidden;
   }
   nav .wrap{
     display:flex;
@@ -557,6 +571,9 @@
     section{
       padding:60px 0;
     }
+    .page-wrapper{
+      overflow-x:hidden;
+    }
   }
 
   /* reduced motion */
@@ -574,6 +591,7 @@
 </style>
 </head>
 <body>
+<div class="page-wrapper">
 
 <nav>
   <div class="wrap">
@@ -740,11 +758,12 @@
     onSuccess: function() {
       setTimeout(function() {
         window.location.href = 'obrigado.html';
-      }, 800);
+      }, 1500);
     }
   });
 </script>
 <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
+</div>
 </body>
 </html>
