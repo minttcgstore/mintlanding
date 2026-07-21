@@ -145,7 +145,10 @@
   grid-template-columns:1.05fr 0.85fr;
   gap:48px;
   align-items:center;
+}
+  .hero > div:first-child{
   padding-left:70px;
+}
 }
   .hero h1{
     font-size:clamp(38px, 5.4vw, 62px);
@@ -196,14 +199,15 @@
 
   
  
+/* ---------- HOLO CARD (signature element) ---------- */
+
+.card-stage{
+  perspective:1100px;
+  display:flex;
+  justify-content:center;
 }
-  /* ---------- HOLO CARD (signature element) ---------- */
-  .card-stage{
-    perspective:1100px;
-    display:flex;
-    justify-content:center;
-  }
-  .holo-card{
+
+.holo-card{
   width:320px;
   aspect-ratio:2.5 / 3.5;
   animation:float 6s ease-in-out infinite;
@@ -212,85 +216,35 @@
   position:relative;
   box-shadow:0 24px 60px rgba(0,0,0,.35);
 }
-  .holo-card::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:16px;
-    padding:1px;
-    background:linear-gradient(135deg,var(--mint),var(--purple),var(--gold));
-    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite:xor;
-    mask-composite:exclude;
-    opacity:0.7;
-  }
-  .holo-glare{
-    position:absolute;
-    inset:0;
-    border-radius:16px;
-    background:radial-gradient(circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,0.55), rgba(139,127,214,0.25) 30%, transparent 60%);
-    mix-blend-mode:overlay;
-    opacity:0;
-    transition:opacity .25s ease;
-    pointer-events:none;
-  }
-  .holo-card:hover .holo-glare{ opacity:0.9; }
-  .holo-inner{
-    position:absolute;
-    inset:16px;
-    border-radius:10px;
-    border:1px solid rgba(242,251,248,0.16);
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    padding:14px;
-  }
-  .holo-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--text-dimmer);
-  }
-  .holo-name{
-    font-family:var(--display);
-    font-size:19px;
-    font-weight:700;
-    color:var(--text);
-  }
-  .holo-art{
-    flex:1;
-    margin:10px 0;
-    border-radius:8px;
-    background:
-      radial-gradient(circle at 30% 30%, rgba(62,219,176,0.5), transparent 55%),
-      radial-gradient(circle at 75% 65%, rgba(139,127,214,0.55), transparent 55%),
-      linear-gradient(160deg,#0d1a17,#0c1420);
-    position:relative;
-    overflow:hidden;
-  }
-.holo-card {
-  width: 320px;
-  aspect-ratio: 2.5 / 3.5;
-  animation: float 6s ease-in-out infinite;
-  border-radius: 18px;
-  overflow: hidden;
+
+.holo-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  padding:1px;
+  background:linear-gradient(
+    135deg,
+    var(--mint),
+    var(--purple),
+    var(--gold)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:0.7;
+  pointer-events:none;
+  z-index:2;
 }
 
-.holo-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.holo-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
-  .holo-bottom{
-    font-family:var(--mono);
-    font-size:10.5px;
-    color:var(--text-dimmer);
-    display:flex;
-    justify-content:space-between;
-  }
 
   /* ---------- SECTION SHARED ---------- */
   section{
@@ -480,15 +434,46 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:880px){
-    .hero{ grid-template-columns:1fr; padding-top:56px; }
-    .card-stage{ order:-1; margin-bottom:8px; }
-    .holo-card{ max-width:220px; }
-    .what-grid{ grid-template-columns:1fr; }
-    .stages{ grid-template-columns:1fr; gap:28px; }
-    .stages::before{ display:none; }
-    .capture-box{ grid-template-columns:1fr; padding:32px 24px; }
-    section{ padding:60px 0; }
+  .hero{
+    grid-template-columns:1fr;
+    padding-top:56px;
   }
+
+  .hero > div:first-child{
+    padding-left:0;
+  }
+
+  .card-stage{
+    order:-1;
+    margin-bottom:8px;
+  }
+
+  .holo-card{
+    width:220px;
+  }
+
+  .what-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stages{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+
+  .stages::before{
+    display:none;
+  }
+
+  .capture-box{
+    grid-template-columns:1fr;
+    padding:32px 24px;
+  }
+
+  section{
+    padding:60px 0;
+  }
+}
 
   /* reduced motion */
   @media (prefers-reduced-motion:reduce){
@@ -516,37 +501,37 @@
 
 <header class="hero">
   <div class="wrap" style="display:contents;">
+    
     <div>
       <div class="eyebrow">Lançamento · Pokémon TCG STORE</div>
-      <h1>Sua próxima<br><span>carta rara</span><br>está chegando.</h1>
-      <p class="lead">A MiNT está construindo um canal online dedicado a produtos fechados de Pokémon TCG — para quem vive a emoção de abrir um booster e sabe o gosto de montar uma coleção.</p>
+
+      <h1>
+        Sua próxima<br>
+        <span>carta rara</span><br>
+        está chegando.
+      </h1>
+
+      <p class="lead">
+        A MiNT está construindo um canal online dedicado a produtos fechados de Pokémon TCG — para quem vive a emoção de abrir um booster e sabe o gosto de montar uma coleção.
+      </p>
+
       <div class="hero-ctas">
-        <a href="#lista" class="btn-primary">Quero ser avisado no lançamento</a>
-        <a href="#jornada" class="btn-ghost">Como funciona</a>
+        <a href="#lista" class="btn-primary">
+          Quero ser avisado no lançamento
+        </a>
+
+        <a href="#jornada" class="btn-ghost">
+          Como funciona
+        </a>
       </div>
     </div>
+
     <div class="card-stage">
       <div class="holo-card">
-  <img src="images/venusauroldcard.jpg" alt="Carta rara de Pokémon TCG">
-</div>
-        <div class="holo-glare" id="holoGlare"></div>
-        <div class="holo-inner">
-          <div class="holo-top">
-            <span>MINT · PRÉ-VENDA</span>
-            <span>★</span>
-          </div>
-          <div>
-            <div class="holo-name">Acesso Antecipado</div>
-          </div>
-          <div class="holo-art"> 
-          </div>
-          <div class="holo-bottom">
-            <span>SET: LANÇAMENTO</span>
-            <span>001/100</span>
-          </div>
-        </div>
+        <img src="images/venusauroldcard.jpg" alt="Carta rara de Pokémon TCG">
       </div>
     </div>
+
   </div>
 </header>
 
