@@ -102,11 +102,11 @@
     justify-content:space-between;
     height:68px;
   }
-   .logo img {
-  height: 80px;
-  width: auto;
-  display: block;
-   }
+  .logo img{
+    height:80px;
+    width:auto;
+    display:block;
+  }
   .logo{
     font-family:var(--display);
     font-size:20px;
@@ -140,16 +140,15 @@
 
   /* ---------- HERO ---------- */
   .hero{
-  padding:96px 0 80px;
-  display:grid;
-  grid-template-columns:1.05fr 0.85fr;
-  gap:48px;
-  align-items:center;
-}
+    padding:96px 0 80px;
+    display:grid;
+    grid-template-columns:1.05fr 0.85fr;
+    gap:48px;
+    align-items:center;
+  }
   .hero > div:first-child{
-  padding-left:70px;
-}
-}
+    padding-left:70px;
+  }
   .hero h1{
     font-size:clamp(38px, 5.4vw, 62px);
     margin:18px 0 22px;
@@ -197,54 +196,101 @@
   }
   .btn-ghost:hover{ border-color:var(--purple-soft); background:rgba(139,127,214,0.08); }
 
-  
- 
-/* ---------- HOLO CARD (signature element) ---------- */
+  /* ---------- HOLO CARD (signature element) ---------- */
+  .card-stage{
+    perspective:1100px;
+    display:flex;
+    justify-content:center;
+  }
 
-.card-stage{
-  perspective:1100px;
-  display:flex;
-  justify-content:center;
-}
+  .holo-card{
+    width:320px;
+    aspect-ratio:2.5 / 3.5;
+    animation:float 6s ease-in-out infinite;
+    border-radius:18px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 24px 60px rgba(0,0,0,.35);
+    transition:transform 0.1s ease-out;
+    transform-style:preserve-3d;
+  }
 
-.holo-card{
-  width:320px;
-  aspect-ratio:2.5 / 3.5;
-  animation:float 6s ease-in-out infinite;
-  border-radius:18px;
-  overflow:hidden;
-  position:relative;
-  box-shadow:0 24px 60px rgba(0,0,0,.35);
-}
+  @keyframes float{
+    0%, 100% { transform:translateY(0px); }
+    50% { transform:translateY(-20px); }
+  }
 
-.holo-card::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  border-radius:18px;
-  padding:1px;
-  background:linear-gradient(
-    135deg,
-    var(--mint),
-    var(--purple),
-    var(--gold)
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  opacity:0.7;
-  pointer-events:none;
-  z-index:2;
-}
+  .holo-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:18px;
+    padding:1px;
+    background:linear-gradient(
+      135deg,
+      var(--mint),
+      var(--purple),
+      var(--gold)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    opacity:0.7;
+    pointer-events:none;
+    z-index:2;
+  }
 
-.holo-card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
+  .holo-card::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:18px;
+    background:linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(91,245,203,0.15) 45%,
+      rgba(185,174,236,0.2) 50%,
+      rgba(255,214,107,0.15) 55%,
+      transparent 60%
+    );
+    background-size:200% 200%;
+    pointer-events:none;
+    z-index:3;
+    opacity:0;
+    transition:opacity 0.3s ease;
+  }
+
+  .holo-card:hover::after{
+    opacity:1;
+  }
+
+  .holo-glare{
+    position:absolute;
+    inset:0;
+    border-radius:18px;
+    background:radial-gradient(
+      circle at var(--gx, 50%) var(--gy, 50%),
+      rgba(255,255,255,0.25) 0%,
+      transparent 60%
+    );
+    pointer-events:none;
+    z-index:4;
+    opacity:0;
+    transition:opacity 0.2s ease;
+  }
+
+  .holo-card:hover .holo-glare{
+    opacity:1;
+  }
+
+  .holo-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
 
   /* ---------- SECTION SHARED ---------- */
   section{
@@ -425,7 +471,7 @@
     gap:16px;
   }
   footer .logo{ font-size:16px;}
-  footer .logo img{height:150px;}
+  footer .logo img{ height:80px; }
   footer .fine{
     font-family:var(--mono);
     font-size:12px;
@@ -434,51 +480,44 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:880px){
-  .hero{
-    grid-template-columns:1fr;
-    padding-top:56px;
+    .hero{
+      grid-template-columns:1fr;
+      padding-top:56px;
+    }
+    .hero > div:first-child{
+      padding-left:0;
+    }
+    .card-stage{
+      order:-1;
+      margin-bottom:8px;
+    }
+    .holo-card{
+      width:220px;
+    }
+    .what-grid{
+      grid-template-columns:1fr;
+    }
+    .stages{
+      grid-template-columns:1fr;
+      gap:28px;
+    }
+    .stages::before{
+      display:none;
+    }
+    .capture-box{
+      grid-template-columns:1fr;
+      padding:32px 24px;
+    }
+    section{
+      padding:60px 0;
+    }
   }
-
-  .hero > div:first-child{
-    padding-left:0;
-  }
-
-  .card-stage{
-    order:-1;
-    margin-bottom:8px;
-  }
-
-  .holo-card{
-    width:220px;
-  }
-
-  .what-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stages{
-    grid-template-columns:1fr;
-    gap:28px;
-  }
-
-  .stages::before{
-    display:none;
-  }
-
-  .capture-box{
-    grid-template-columns:1fr;
-    padding:32px 24px;
-  }
-
-  section{
-    padding:60px 0;
-  }
-}
 
   /* reduced motion */
   @media (prefers-reduced-motion:reduce){
     html{ scroll-behavior:auto; }
-    .holo-card{ transition:none; }
+    .holo-card{ animation:none; transition:none; }
+    .holo-card::after{ transition:none; }
     .holo-glare{ transition:none; }
   }
 
@@ -492,16 +531,15 @@
 
 <nav>
   <div class="wrap">
-  <div class="logo">
-  <img src="images/logo-mint2.png" alt="MiNT">
-</div>
+    <div class="logo">
+      <img src="images/logo-mint2.png" alt="MiNT">
+    </div>
     <a href="#lista" class="cta">Entrar na lista</a>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="wrap" style="display:contents;">
-    
+  <div class="wrap">
     <div>
       <div class="eyebrow">Lançamento · Pokémon TCG STORE</div>
 
@@ -519,7 +557,6 @@
         <a href="#lista" class="btn-primary">
           Quero ser avisado no lançamento
         </a>
-
         <a href="#jornada" class="btn-ghost">
           Como funciona
         </a>
@@ -527,11 +564,11 @@
     </div>
 
     <div class="card-stage">
-      <div class="holo-card">
+      <div class="holo-card" id="holoCard">
         <img src="images/venusauroldcard.jpg" alt="Carta rara de Pokémon TCG">
+        <div class="holo-glare" id="holoGlare"></div>
       </div>
     </div>
-
   </div>
 </header>
 
@@ -556,7 +593,7 @@
       <div class="what-card">
         <div class="tag">03 · COMUNIDADE</div>
         <h3>Feita por quem joga e coleciona</h3>
-        <p>Nós somos 3 sócios que estão sonhando e construindo a MiNT a partir da própria experiência com o hobby e temos muito para agregar!.</p>
+        <p>Nós somos 3 sócios que estão sonhando e construindo a MiNT a partir da própria experiência com o hobby e temos muito para agregar!</p>
       </div>
     </div>
   </div>
@@ -573,7 +610,7 @@
       <div class="stage">
         <div class="stage-dot">①</div>
         <h3>Conteúdo &amp; audiência</h3>
-        <p>Vídeos de abertura e conteúdo sobre o universo TCG, já em produção. Siga-nos nas Redes! </p>
+        <p>Vídeos de abertura e conteúdo sobre o universo TCG, já em produção. Siga-nos nas Redes!</p>
       </div>
       <div class="stage">
         <div class="stage-dot">②</div>
@@ -604,8 +641,8 @@
       </div>
       <div>
         <form id="leadForm">
-          <input type="text" name="nome" placeholder="Seu nome" required>
-          <input type="email" name="email" placeholder="Seu melhor e-mail" required>
+          <input type="text" name="nome" placeholder="Seu nome" required lang="pt-BR">
+          <input type="email" name="email" placeholder="Seu melhor e-mail" required lang="pt-BR">
           <button type="submit">Garantir meu acesso antecipado</button>
           <div class="form-msg" id="formMsg"></div>
           <div class="form-note">// os dados ficam só com a MiNT</div>
@@ -617,9 +654,9 @@
 
 <footer>
   <div class="wrap">
-  <div class="logo">
-  <img src="images/logo-mint2.png" alt="MiNT">
-</div>
+    <div class="logo">
+      <img src="images/logo-mint2.png" alt="MiNT">
+    </div>
     <div class="fine">© 2026 MiNT · feito por quem coleciona para quem coleciona.</div>
   </div>
 </footer>
@@ -646,9 +683,9 @@
     });
   }
 
-  // Lead form handler.
-  // Replace FORM_ENDPOINT below with your Formspree (or similar) endpoint URL
-  // to actually receive submissions, e.g. https://formspree.io/f/xxxxxxx
+  // Lead form handler
+  // IMPORTANTE: Substitua FORM_ENDPOINT pelo seu endpoint do Formspree (ou similar)
+  // Exemplo: https://formspree.io/f/xxxxxxx
   const FORM_ENDPOINT = "";
 
   const form = document.getElementById('leadForm');
@@ -658,10 +695,12 @@
     e.preventDefault();
     if (!FORM_ENDPOINT) {
       msg.textContent = "Configure o FORM_ENDPOINT no script para ativar o envio.";
+      msg.style.color = "var(--gold)";
       return;
     }
     const data = new FormData(form);
     msg.textContent = "Enviando...";
+    msg.style.color = "var(--mint-soft)";
     try {
       const res = await fetch(FORM_ENDPOINT, {
         method: "POST",
@@ -670,12 +709,16 @@
       });
       if (res.ok) {
         msg.textContent = "Feito! Você está na lista. ✓";
+        msg.style.color = "var(--mint)";
         form.reset();
       } else {
-        msg.textContent = "Algo deu errado. Tente novamente.";
+        const errorData = await res.json().catch(() => ({}));
+        msg.textContent = errorData.message || "Algo deu errado. Tente novamente.";
+        msg.style.color = "#ff6b6b";
       }
     } catch (err) {
-      msg.textContent = "Algo deu errado. Tente novamente.";
+      msg.textContent = "Erro de conexão. Verifique sua internet e tente novamente.";
+      msg.style.color = "#ff6b6b";
     }
   });
 </script>
