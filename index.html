@@ -7,7 +7,7 @@
 <meta name="description" content="A MiNT está construindo o canal definitivo para comprar produtos fechados de Pokémon TCG online. Entre para a lista e seja avisado no lançamento.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --mint: #5BF5CB;
@@ -22,7 +22,7 @@
     --text-dim: rgba(242,251,248,0.62);
     --text-dimmer: rgba(242,251,248,0.4);
     --radius: 14px;
-    --display: 'Rubik Mono One', monospace;
+    --display: 'Bricolage Grotesque', sans-serif;
     --body: 'Inter', sans-serif;
     --mono: 'JetBrains Mono', monospace;
   }
@@ -184,8 +184,8 @@
   .hero h1{
     font-size:clamp(30px, 4.5vw, 48px);
     margin:18px 0 22px;
-    font-weight:400;
-    letter-spacing:0.04em;
+    font-weight:700;
+    letter-spacing:0.02em;
     line-height:1.15;
   }
   .hero h1 span{
@@ -207,7 +207,7 @@
   }
   .btn-primary{
     font-family:var(--body);
-    font-weight:600;
+    font-weight:400;
     font-size:15px;
     padding:14px 26px;
     border-radius:10px;
@@ -220,7 +220,7 @@
   .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 34px -6px rgba(62,219,176,0.7); }
   .btn-ghost{
     font-family:var(--body);
-    font-weight:600;
+    font-weight:400;
     font-size:15px;
     padding:14px 22px;
     border-radius:10px;
@@ -341,8 +341,8 @@
   .section-head h2{
     font-size:clamp(22px,3vw,30px);
     margin-top:14px;
-    font-weight:400;
-    letter-spacing:0.04em;
+    font-weight:700;
+    letter-spacing:0.01em;
     line-height:1.2;
   }
   .section-head p{
@@ -375,8 +375,8 @@
   .what-card h3{
     font-size:16px;
     margin:12px 0 10px;
-    font-weight:400;
-    letter-spacing:0.04em;
+    font-weight:600;
+    letter-spacing:0em;
     line-height:1.25;
   }
   .what-card p{
@@ -425,9 +425,9 @@
   }
   .stage h3{
     font-size:14px;
-    font-weight:400;
+    font-weight:600;
     margin-bottom:8px;
-    letter-spacing:0.04em;
+    letter-spacing:0em;
     line-height:1.25;
   }
   .stage p{
@@ -451,8 +451,8 @@
   }
   .capture h2{
     font-size:clamp(20px,2.8vw,28px);
-    font-weight:400;
-    letter-spacing:0.04em;
+    font-weight:700;
+    letter-spacing:0.01em;
     line-height:1.2;
   }
   .capture p{
@@ -481,7 +481,7 @@
   form input::placeholder{ color:var(--text-dimmer); }
   form button{
     font-family:var(--body);
-    font-weight:600;
+    font-weight:400;
     font-size:15px;
     padding:14px;
     border:none;
@@ -548,6 +548,134 @@
     color:var(--text-dimmer);
   }
 
+  /* ---------- SPECIALTY (produtos flutuando + texto) ---------- */
+  .specialty{
+    border-top:1px solid var(--line);
+  }
+  .specialty-grid{
+    display:grid;
+    grid-template-columns:0.95fr 1.05fr;
+    gap:56px;
+    align-items:center;
+  }
+  .specialty-text h2{
+    font-size:clamp(24px,3.2vw,34px);
+    margin-top:14px;
+    font-weight:700;
+    letter-spacing:0.01em;
+    line-height:1.2;
+  }
+  .specialty-text > p{
+    color:var(--text-dim);
+    font-size:16px;
+    margin-top:16px;
+    max-width:460px;
+  }
+  .specialty-list{
+    list-style:none;
+    margin-top:26px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .specialty-list li{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .specialty-list li svg{
+    width:16px;
+    height:16px;
+    color:var(--mint-soft);
+    flex-shrink:0;
+  }
+
+  .product-stage{
+    position:relative;
+    aspect-ratio:1 / 0.85;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .product-stage::before{
+    content:'';
+    position:absolute;
+    left:8%;
+    right:8%;
+    bottom:6%;
+    height:40%;
+    background:radial-gradient(ellipse closest-side, rgba(91,245,203,0.16), rgba(139,127,214,0.08) 55%, transparent 75%);
+    filter:blur(6px);
+    pointer-events:none;
+  }
+  .product-float{
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+  .pf-item{
+    position:absolute;
+    filter:drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+    animation:pfFloat 7s ease-in-out infinite;
+  }
+  .pf-item--box{
+    width:56%;
+    left:22%;
+    top:4%;
+    z-index:2;
+    transform:rotate(-3deg);
+    animation-duration:8s;
+  }
+  .pf-item--tin{
+    width:26%;
+    left:2%;
+    top:10%;
+    z-index:3;
+    transform:rotate(11deg);
+    animation-duration:6.5s;
+    animation-delay:-2s;
+  }
+  .pf-item--blister{
+    width:44%;
+    left:50%;
+    top:46%;
+    z-index:3;
+    transform:rotate(6deg);
+    animation-duration:7.5s;
+    animation-delay:-4s;
+  }
+  .pf-item img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+
+  @keyframes pfFloat{
+    0%, 100%{ transform:translateY(0) rotate(var(--r, 0deg)); }
+    50%{ transform:translateY(-14px) rotate(var(--r, 0deg)); }
+  }
+  .pf-item--box{ --r:-3deg; }
+  .pf-item--tin{ --r:11deg; }
+  .pf-item--blister{ --r:6deg; }
+
+  @media (prefers-reduced-motion:reduce){
+    .pf-item{ animation:none; }
+  }
+
+  @media (max-width:880px){
+    .specialty-grid{
+      grid-template-columns:1fr;
+      gap:36px;
+    }
+    .product-stage{
+      order:-1;
+      aspect-ratio:1 / 0.75;
+    }
+  }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:880px){
     .hero{
@@ -578,6 +706,17 @@
     .stages::before{
       display:none;
     }
+    .stage{
+      padding:0;
+    }
+    .stage-dot{
+      width:24px;
+      height:24px;
+    }
+    .stage-dot::before{
+      width:7px;
+      height:7px;
+    }
     .capture-box{
       grid-template-columns:1fr;
       padding:32px 24px;
@@ -590,22 +729,339 @@
     }
   }
 
+  /* ---------- ANIMATIONS ---------- */
+  @keyframes fadeInUp{
+    from{ opacity:0; transform:translateY(30px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeIn{
+    from{ opacity:0; }
+    to{ opacity:1; }
+  }
+  @keyframes scaleIn{
+    from{ opacity:0; transform:scale(0.9); }
+    to{ opacity:1; transform:scale(1); }
+  }
+  @keyframes slideInLeft{
+    from{ opacity:0; transform:translateX(-40px); }
+    to{ opacity:1; transform:translateX(0); }
+  }
+  @keyframes slideInRight{
+    from{ opacity:0; transform:translateX(40px); }
+    to{ opacity:1; transform:translateX(0); }
+  }
+  @keyframes glowPulse{
+    0%, 100%{ box-shadow:0 0 20px rgba(91,245,203,0.15); }
+    50%{ box-shadow:0 0 40px rgba(91,245,203,0.35); }
+  }
+  @keyframes borderGlow{
+    0%, 100%{ border-color:rgba(91,245,203,0.3); }
+    50%{ border-color:rgba(91,245,203,0.7); }
+  }
+  @keyframes shimmer{
+    0%{ background-position:-200% 0; }
+    100%{ background-position:200% 0; }
+  }
+  @keyframes typing{
+    from{ width:0; }
+    to{ width:100%; }
+  }
+  @keyframes blink{
+    0%, 100%{ border-color:transparent; }
+    50%{ border-color:var(--mint); }
+  }
+  @keyframes particleFloat{
+    0%, 100%{ transform:translateY(0) translateX(0); opacity:0; }
+    10%{ opacity:1; }
+    90%{ opacity:1; }
+    50%{ transform:translateY(-60px) translateX(20px); }
+  }
+
+  /* Scroll reveal */
+  .reveal{
+    opacity:0;
+    transform:translateY(30px);
+    transition:opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .reveal-delay-1{ transition-delay:0.1s; }
+  .reveal-delay-2{ transition-delay:0.2s; }
+  .reveal-delay-3{ transition-delay:0.3s; }
+  .reveal-delay-4{ transition-delay:0.4s; }
+
+  /* Card hover glow */
+  .what-card{
+    transition:all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position:relative;
+    overflow:hidden;
+  }
+  .what-card::before{
+    content:'';
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle, rgba(91,245,203,0.08) 0%, transparent 60%);
+    opacity:0;
+    transition:opacity 0.4s ease;
+    pointer-events:none;
+  }
+  .what-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(91,245,203,0.4);
+    box-shadow:0 12px 40px -8px rgba(91,245,203,0.15);
+  }
+  .what-card:hover::before{
+    opacity:1;
+  }
+
+  /* Capture box shimmer */
+  .capture-box{
+    position:relative;
+    overflow:hidden;
+  }
+  .capture-box::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:50%;
+    height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+    animation:shimmer 6s ease-in-out infinite;
+    pointer-events:none;
+  }
+
+  /* Hero text animations */
+  .hero-text .eyebrow{
+    animation:fadeInUp 0.6s ease-out both;
+  }
+  .hero-text h1{
+    animation:fadeInUp 0.7s ease-out 0.15s both;
+  }
+  .hero-text .lead{
+    animation:fadeInUp 0.7s ease-out 0.3s both;
+  }
+  .hero-text .hero-ctas{
+    animation:fadeInUp 0.7s ease-out 0.45s both;
+  }
+  .card-stage{
+    animation:scaleIn 0.9s ease-out 0.2s both;
+  }
+
+  /* Stages animation */
+  .stage{
+    opacity:0;
+    animation:fadeInUp 0.6s ease-out both;
+  }
+  .stage:nth-child(1){ animation-delay:0.1s; }
+  .stage:nth-child(2){ animation-delay:0.25s; }
+  .stage:nth-child(3){ animation-delay:0.4s; }
+  .stage:nth-child(4){ animation-delay:0.55s; }
+
+  /* Nav glow on scroll */
+  nav.scrolled{
+    background:rgba(11,22,20,0.92);
+    box-shadow:0 4px 30px rgba(0,0,0,0.3);
+  }
+
+  /* Button magnetic hover effect */
+  .btn-primary, .btn-ghost, form button{
+    position:relative;
+    overflow:hidden;
+  }
+  .btn-primary::after, .btn-ghost::after, form button::after{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:0;
+    height:0;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    transform:translate(-50%, -50%);
+    transition:width 0.4s ease, height 0.4s ease;
+  }
+  .btn-primary:hover::after, .btn-ghost:hover::after, form button:hover::after{
+    width:300px;
+    height:300px;
+  }
+
+  /* Particles container */
+  .particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    overflow:hidden;
+  }
+  .particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:var(--mint);
+    border-radius:50%;
+    opacity:0;
+    animation:particleFloat 8s ease-in-out infinite;
+  }
+
+  /* Section divider glow */
+  section{
+    position:relative;
+  }
+  section::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:60%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity:0.15;
+  }
+
+  /* Tag shimmer */
+  .tag{
+    position:relative;
+    overflow:hidden;
+  }
+  .tag::after{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,214,107,0.2), transparent);
+    animation:shimmer 4s ease-in-out infinite;
+  }
+
+  /* Form input focus glow */
+  form input:focus{
+    border-color:var(--mint);
+    box-shadow:0 0 0 3px rgba(91,245,203,0.1), 0 0 20px rgba(91,245,203,0.1);
+  }
+
+  /* Footer hover */
+  footer .fine{
+    transition:color 0.3s ease;
+  }
+  footer:hover .fine{
+    color:var(--text-dim);
+  }
+
   /* reduced motion */
   @media (prefers-reduced-motion:reduce){
     html{ scroll-behavior:auto; }
     .holo-card{ animation:none; transition:none; }
     .holo-card::after{ transition:none; }
     .holo-glare{ transition:none; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .hero-text .eyebrow, .hero-text h1, .hero-text .lead, .hero-text .hero-ctas,
+    .card-stage, .stage{ animation:none; opacity:1; transform:none; }
+    .capture-box::after, .tag::after{ animation:none; }
+    .particle{ display:none; }
   }
 
   :focus-visible{
     outline:2px solid var(--mint);
     outline-offset:3px;
   }
+
+  /* ---------- SCATTERED POKÉBALLS (background field) ---------- */
+  .pokeball-field{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+
+  .pball{
+    position:absolute;
+    height:auto;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:5;
+    animation:pballDrift 16s ease-in-out infinite;
+  }
+
+  .pball .pball-hinge{ stroke-width:5; }
+  .pball .pball-core{ fill:var(--bg); stroke-width:5; }
+  .pball .pball-dot{ fill:currentColor; stroke:none; }
+
+  .pball--1{ top:10%; left:4%;  width:56px; color:var(--mint);   opacity:0.07; animation-delay:0s; }
+  .pball--2{ top:70%; left:2%;  width:34px; color:var(--purple); opacity:0.07; animation-delay:-3s; transform:rotate(-18deg); }
+  .pball--3{ top:6%;  left:90%; width:44px; color:var(--gold);   opacity:0.06; animation-delay:-7s; transform:rotate(12deg); }
+  .pball--4{ top:82%; left:92%; width:60px; color:var(--purple); opacity:0.07; animation-delay:-10s; transform:rotate(-6deg); }
+  .pball--5{ top:40%; left:96%; width:26px; color:var(--mint);   opacity:0.09; animation-delay:-5s; }
+  .pball--6{ top:92%; left:20%; width:30px; color:var(--gold);   opacity:0.06; animation-delay:-12s; transform:rotate(24deg); }
+
+  @keyframes pballDrift{
+    0%, 100%{ transform:translateY(0) rotate(var(--rot,0deg)); }
+    50%{ transform:translateY(-16px) rotate(var(--rot,0deg)); }
+  }
+
+  @media (max-width:640px){
+    .pball--3, .pball--5{ display:none; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .pball{ animation:none; }
+  }
+
+  /* ---------- STAGE DOT AS POKÉBALL ---------- */
+  .stage-dot{
+    background:linear-gradient(180deg,
+      var(--mint) 0%, var(--mint) 46%,
+      #0B1615 46%, #0B1615 54%,
+      var(--text) 54%, var(--text) 100%);
+    border:1px solid #0B1615;
+    box-shadow:inset 0 0 0 2px rgba(11,22,20,0.5);
+  }
+  .stage-dot::before{
+    content:'';
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid #0B1615;
+  }
+  @media (max-width:880px){
+    .stage-dot::before{
+      width:8px;
+      height:8px;
+    }
+  }
 </style>
 </head>
 <body>
 <div class="page-wrapper">
+
+<svg style="display:none" aria-hidden="true">
+  <symbol id="pokeball-icon" viewBox="0 0 100 100">
+    <circle class="pball-hinge" cx="50" cy="50" r="44" />
+    <path class="pball-hinge" d="M6 50 H38 M62 50 H94" />
+    <circle class="pball-core" cx="50" cy="50" r="13" />
+    <circle class="pball-dot" cx="50" cy="50" r="4" />
+  </symbol>
+</svg>
+
+<div class="pokeball-field" aria-hidden="true">
+  <svg class="pball pball--1" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--2" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--3" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--4" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--5" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+  <svg class="pball pball--6" viewBox="0 0 100 100"><use href="#pokeball-icon"></use></svg>
+</div>
+
+<div class="particles" id="particles"></div>
 
 <nav>
   <div class="wrap">
@@ -652,23 +1108,23 @@
 
 <section class="what">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="eyebrow">O que é a MiNT</div>
       <h2>Não somos mais um canal falando sobre Pokémon.</h2>
       <p>Somos uma loja em construção — que usa o amor pelo universo do TCG e de Pokémon para chegar até você mesmo antes de abrir as portas.</p>
     </div>
     <div class="what-grid">
-      <div class="what-card">
+      <div class="what-card reveal reveal-delay-1">
         <div class="tag">01 · PRODUTO</div>
         <h3>Produtos fechados e Singles</h3>
         <p>Booster boxes, ETBs, blisters, coleções especiais e singles — direto para quem coleciona e para quem abre.</p>
       </div>
-      <div class="what-card">
+      <div class="what-card reveal reveal-delay-2">
         <div class="tag">02 · CANAL</div>
         <h3>100% online</h3>
         <p>Sem loja física, sem intermediário. Do estoque até a sua casa, com atendimento especial em cada etapa.</p>
       </div>
-      <div class="what-card">
+      <div class="what-card reveal reveal-delay-3">
         <div class="tag">03 · COMUNIDADE</div>
         <h3>Feita por quem joga e coleciona</h3>
         <p>Nós somos 3 sócios que estão sonhando e construindo a MiNT a partir da própria experiência com o hobby e temos muito para agregar!</p>
@@ -677,31 +1133,70 @@
   </div>
 </section>
 
+<section class="specialty" id="produtos">
+  <div class="wrap">
+    <div class="specialty-grid">
+      <div class="specialty-text reveal">
+        <div class="eyebrow">Especialidade</div>
+        <h2>Pokémon TCG é o nosso único foco.</h2>
+        <p>A MiNT nasce de quem já vive o hobby — cada produto que sobe pro catálogo passa pela curadoria de quem também abre booster e monta deck. Nada de loja genérica vendendo de tudo um pouco.</p>
+        <ul class="specialty-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Produtos 100% originais e lacrados
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Curadoria de quem também coleciona
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Catálogo em expansão constante
+          </li>
+        </ul>
+      </div>
+      <div class="product-stage reveal reveal-delay-2">
+        <div class="product-float">
+          <div class="pf-item pf-item--box">
+            <img src="images/produtos/box-escuridao-absoluta.png" alt="Box de boosters Pokémon TCG">
+          </div>
+          <div class="pf-item pf-item--tin">
+            <img src="images/produtos/mini-tin.png" alt="Mini tin Pokémon TCG">
+          </div>
+          <div class="pf-item pf-item--blister">
+            <img src="images/produtos/blister-combo.png" alt="Blister combo de boosters Pokémon TCG">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="journey" id="jornada">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div class="eyebrow">Onde estamos</div>
       <h2>A jornada até a loja abrir</h2>
       <p>Estamos construindo a MiNT em etapas visíveis — e você pode acompanhar cada uma delas.</p>
     </div>
     <div class="stages">
       <div class="stage">
-        <div class="stage-dot">①</div>
+        <div class="stage-dot"></div>
         <h3>Conteúdo &amp; audiência</h3>
         <p>Vídeos de abertura e conteúdo sobre o universo TCG, já em produção. Siga-nos nas Redes!</p>
       </div>
       <div class="stage">
-        <div class="stage-dot">②</div>
+        <div class="stage-dot"></div>
         <h3>Lista de acesso antecipado</h3>
         <p>Você está aqui. Cadastre-se para saber em primeira mão de cada novidade e lançamento que faremos.</p>
       </div>
       <div class="stage">
-        <div class="stage-dot">③</div>
+        <div class="stage-dot"></div>
         <h3>Abertura da loja</h3>
         <p>Catálogo, estoque e checkout online liberados para a lista de cadastrados antes de todo mundo.</p>
       </div>
       <div class="stage">
-        <div class="stage-dot">④</div>
+        <div class="stage-dot"></div>
         <h3>Primeiras coleções</h3>
         <p>Curadoria contínua de produtos abertos e fechados, com reposição e lançamentos.</p>
       </div>
@@ -711,7 +1206,7 @@
 
 <section class="capture" id="lista">
   <div class="wrap">
-    <div class="capture-box">
+    <div class="capture-box reveal">
       <div>
         <div class="eyebrow">Acesso antecipado</div>
         <h2>Seja avisado assim que a loja abrir</h2>
@@ -762,6 +1257,48 @@
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'rotateY(0deg) rotateX(0deg)';
     });
+  }
+
+  // Scroll reveal
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+  revealElements.forEach(el => revealObserver.observe(el));
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    lastScroll = currentScroll;
+  }, { passive: true });
+
+  // Particles
+  const particlesContainer = document.getElementById('particles');
+  if (particlesContainer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 8 + 's';
+      p.style.animationDuration = (6 + Math.random() * 6) + 's';
+      p.style.width = (2 + Math.random() * 3) + 'px';
+      p.style.height = p.style.width;
+      p.style.opacity = 0.2 + Math.random() * 0.4;
+      particlesContainer.appendChild(p);
+    }
   }
 
   // Formspree AJAX integration
