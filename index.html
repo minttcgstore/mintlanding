@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiNT — Coleção. Comunidade. Descoberta.</title>
+<meta name="description" content="A MiNT está construindo o canal definitivo para comprar produtos fechados de Pokémon TCG online. Entre para a lista e seja avisado no lançamento.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mint: #3EDBB0;
+    --mint-soft: #8FF0D3;
+    --purple: #8B7FD6;
+    --purple-soft: #B9AEEC;
+    --gold: #FFD66B;
+    --bg: #0B1614;
+    --bg-raise: #101F1C;
+    --line: rgba(242,251,248,0.12);
+    --text: #F2FBF8;
+    --text-dim: rgba(242,251,248,0.62);
+    --text-dimmer: rgba(242,251,248,0.4);
+    --radius: 14px;
+    --display: 'Chakra Petch', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(62,219,176,0.16), transparent 60%),
+      radial-gradient(ellipse 800px 500px at 90% 10%, rgba(139,127,214,0.16), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 28px;
+    position:relative;
+    z-index:1;
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--mint-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--mint);
+    box-shadow:0 0 10px var(--mint);
+  }
+
+  h1,h2,h3{
+    font-family:var(--display);
+    font-weight:600;
+    letter-spacing:-0.01em;
+    line-height:1.06;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(11,22,20,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:68px;
+  }
+  .logo{
+    font-family:var(--display);
+    font-size:20px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .logo .mark{
+    width:20px;height:20px;
+    border-radius:5px;
+    background:linear-gradient(135deg,var(--mint),var(--purple));
+    box-shadow:0 0 16px rgba(62,219,176,0.5);
+  }
+  nav .cta{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:9px 18px;
+    border:1px solid var(--mint);
+    border-radius:999px;
+    color:var(--mint-soft);
+    text-decoration:none;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  nav .cta:hover{
+    background:var(--mint);
+    color:#062019;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 80px;
+    display:grid;
+    grid-template-columns:1.05fr 0.85fr;
+    gap:48px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(38px, 5.4vw, 62px);
+    margin:18px 0 22px;
+  }
+  .hero h1 span{
+    background:linear-gradient(100deg,var(--mint) 10%, var(--purple-soft) 60%, var(--gold) 95%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p.lead{
+    font-size:17.5px;
+    color:var(--text-dim);
+    max-width:480px;
+    margin-bottom:34px;
+  }
+  .hero-ctas{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:15px;
+    padding:14px 26px;
+    border-radius:10px;
+    background:linear-gradient(120deg,var(--mint),var(--mint-soft));
+    color:#06231C;
+    text-decoration:none;
+    box-shadow:0 8px 30px -8px rgba(62,219,176,0.55);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 34px -6px rgba(62,219,176,0.7); }
+  .btn-ghost{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:15px;
+    padding:14px 22px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    color:var(--text);
+    text-decoration:none;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--purple-soft); background:rgba(139,127,214,0.08); }
+
+  /* ---------- HOLO CARD (signature element) ---------- */
+  .card-stage{
+    perspective:1100px;
+    display:flex;
+    justify-content:center;
+  }
+  .holo-card{
+    position:relative;
+    width:100%;
+    max-width:300px;
+    aspect-ratio:63/88;
+    border-radius:16px;
+    background:
+      linear-gradient(135deg, #16302B, #101B26);
+    border:1px solid rgba(242,251,248,0.14);
+    transform-style:preserve-3d;
+    transition:transform .12s ease-out;
+    cursor:pointer;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .holo-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    padding:1px;
+    background:linear-gradient(135deg,var(--mint),var(--purple),var(--gold));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    opacity:0.7;
+  }
+  .holo-glare{
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    background:radial-gradient(circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,0.55), rgba(139,127,214,0.25) 30%, transparent 60%);
+    mix-blend-mode:overlay;
+    opacity:0;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .holo-card:hover .holo-glare{ opacity:0.9; }
+  .holo-inner{
+    position:absolute;
+    inset:16px;
+    border-radius:10px;
+    border:1px solid rgba(242,251,248,0.16);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:14px;
+  }
+  .holo-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--text-dimmer);
+  }
+  .holo-name{
+    font-family:var(--display);
+    font-size:19px;
+    font-weight:700;
+    color:var(--text);
+  }
+  .holo-art{
+    flex:1;
+    margin:10px 0;
+    border-radius:8px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(62,219,176,0.5), transparent 55%),
+      radial-gradient(circle at 75% 65%, rgba(139,127,214,0.55), transparent 55%),
+      linear-gradient(160deg,#0d1a17,#0c1420);
+    position:relative;
+    overflow:hidden;
+  }
+  .holo-bottom{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--text-dimmer);
+    display:flex;
+    justify-content:space-between;
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{
+    padding:90px 0;
+    position:relative;
+    z-index:1;
+  }
+  .section-head{
+    max-width:600px;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-size:clamp(28px,3.6vw,38px);
+    margin-top:14px;
+  }
+  .section-head p{
+    color:var(--text-dim);
+    font-size:16px;
+    margin-top:14px;
+  }
+
+  /* ---------- WHAT IS MINT ---------- */
+  .what{
+    border-top:1px solid var(--line);
+  }
+  .what-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .what-card{
+    background:var(--bg-raise);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px;
+  }
+  .what-card .tag{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--gold);
+    letter-spacing:0.06em;
+  }
+  .what-card h3{
+    font-size:19px;
+    margin:12px 0 10px;
+    font-weight:600;
+  }
+  .what-card p{
+    font-size:14.5px;
+    color:var(--text-dim);
+  }
+
+  /* ---------- JOURNEY / FUNNEL STAGES ---------- */
+  .journey{
+    border-top:1px solid var(--line);
+  }
+  .stages{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    position:relative;
+  }
+  .stages::before{
+    content:'';
+    position:absolute;
+    top:22px;
+    left:5%;
+    right:5%;
+    height:1px;
+    background:linear-gradient(90deg,var(--mint),var(--purple),var(--gold));
+    opacity:0.4;
+  }
+  .stage{
+    padding:0 16px 0 0;
+    position:relative;
+  }
+  .stage-dot{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--bg-raise);
+    border:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--mint-soft);
+    margin-bottom:20px;
+    position:relative;
+    z-index:1;
+  }
+  .stage h3{
+    font-size:16.5px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .stage p{
+    font-size:13.5px;
+    color:var(--text-dim);
+  }
+
+  /* ---------- LEAD CAPTURE ---------- */
+  .capture{
+    border-top:1px solid var(--line);
+  }
+  .capture-box{
+    background:linear-gradient(140deg, rgba(62,219,176,0.10), rgba(139,127,214,0.10));
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:56px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+  }
+  .capture h2{
+    font-size:clamp(26px,3.2vw,34px);
+  }
+  .capture p{
+    color:var(--text-dim);
+    margin-top:12px;
+    font-size:15.5px;
+  }
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  form input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:rgba(11,22,20,0.6);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:14.5px;
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  form input:focus{ border-color:var(--mint); }
+  form input::placeholder{ color:var(--text-dimmer); }
+  form button{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:15px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(120deg,var(--mint),var(--purple-soft));
+    color:#06231C;
+    cursor:pointer;
+    transition:transform .18s ease;
+  }
+  form button:hover{ transform:translateY(-2px); }
+  .form-note{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-dimmer);
+  }
+  .form-msg{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--mint-soft);
+    min-height:16px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:36px 0;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer .logo{ font-size:16px; }
+  footer .fine{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dimmer);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:880px){
+    .hero{ grid-template-columns:1fr; padding-top:56px; }
+    .card-stage{ order:-1; margin-bottom:8px; }
+    .holo-card{ max-width:220px; }
+    .what-grid{ grid-template-columns:1fr; }
+    .stages{ grid-template-columns:1fr; gap:28px; }
+    .stages::before{ display:none; }
+    .capture-box{ grid-template-columns:1fr; padding:32px 24px; }
+    section{ padding:60px 0; }
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    .holo-card{ transition:none; }
+    .holo-glare{ transition:none; }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--mint);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="mark"></span>MiNT</div>
+    <a href="#lista" class="cta">Entrar na lista</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap" style="display:contents;">
+    <div>
+      <div class="eyebrow">Pré-lançamento · Pokémon TCG</div>
+      <h1>Sua próxima<br><span>carta rara</span><br>está chegando.</h1>
+      <p class="lead">A MiNT está construindo um canal online dedicado a produtos fechados de Pokémon TCG — para quem vive a emoção de abrir um booster e a paciência de montar uma coleção.</p>
+      <div class="hero-ctas">
+        <a href="#lista" class="btn-primary">Quero ser avisado no lançamento</a>
+        <a href="#jornada" class="btn-ghost">Como funciona</a>
+      </div>
+    </div>
+    <div class="card-stage">
+      <div class="holo-card" id="holoCard">
+        <div class="holo-glare" id="holoGlare"></div>
+        <div class="holo-inner">
+          <div class="holo-top">
+            <span>MINT · PRÉ-VENDA</span>
+            <span>★</span>
+          </div>
+          <div>
+            <div class="holo-name">Acesso Antecipado</div>
+          </div>
+          <div class="holo-art"></div>
+          <div class="holo-bottom">
+            <span>SET: LANÇAMENTO</span>
+            <span>001/100</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="what">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">O que é a MiNT</div>
+      <h2>Não somos mais um canal falando sobre Pokémon.</h2>
+      <p>Somos uma loja em construção — que usa a paixão pelo universo TCG para chegar até você antes de abrir as portas.</p>
+    </div>
+    <div class="what-grid">
+      <div class="what-card">
+        <div class="tag">01 · PRODUTO</div>
+        <h3>Produtos fechados, de verdade</h3>
+        <p>Booster boxes, ETBs, blisters e coleções especiais — direto para quem coleciona e para quem abre.</p>
+      </div>
+      <div class="what-card">
+        <div class="tag">02 · CANAL</div>
+        <h3>100% online</h3>
+        <p>Sem loja física, sem intermediário. Do estoque até a sua casa, com transparência em cada etapa.</p>
+      </div>
+      <div class="what-card">
+        <div class="tag">03 · COMUNIDADE</div>
+        <h3>Feita por quem joga e coleciona</h3>
+        <p>Guilherme, Gabriel e Nuno estão construindo a MiNT a partir da própria experiência com o hobby.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="journey" id="jornada">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Onde estamos</div>
+      <h2>A jornada até a loja abrir</h2>
+      <p>Estamos construindo a MiNT em etapas visíveis — e você pode acompanhar cada uma delas.</p>
+    </div>
+    <div class="stages">
+      <div class="stage">
+        <div class="stage-dot">①</div>
+        <h3>Conteúdo &amp; audiência</h3>
+        <p>Vídeos de abertura e conteúdo sobre o universo TCG, já em produção.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-dot">②</div>
+        <h3>Lista de acesso antecipado</h3>
+        <p>Você está aqui. Cadastre-se para saber em primeira mão de cada novidade.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-dot">③</div>
+        <h3>Abertura da loja</h3>
+        <p>Catálogo, estoque e checkout online liberados para a lista antes de todo mundo.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-dot">④</div>
+        <h3>Primeiras coleções</h3>
+        <p>Curadoria contínua de produtos fechados, com reposição e lançamentos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="capture" id="lista">
+  <div class="wrap">
+    <div class="capture-box">
+      <div>
+        <div class="eyebrow">Acesso antecipado</div>
+        <h2>Seja avisado assim que a loja abrir</h2>
+        <p>Sem spam. Só o essencial: quando a loja abrir, quais produtos chegam primeiro e ofertas exclusivas para quem entrou na lista antes.</p>
+      </div>
+      <div>
+        <form id="leadForm">
+          <input type="text" name="nome" placeholder="Seu nome" required>
+          <input type="email" name="email" placeholder="Seu melhor e-mail" required>
+          <button type="submit">Garantir meu acesso antecipado</button>
+          <div class="form-msg" id="formMsg"></div>
+          <div class="form-note">// os dados ficam só com a MiNT</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><span class="mark"></span>MiNT</div>
+    <div class="fine">© 2026 MiNT · feito por quem coleciona</div>
+  </div>
+</footer>
+
+<script>
+  // Holo card tilt + glare interaction
+  const card = document.getElementById('holoCard');
+  const glare = document.getElementById('holoGlare');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (card && !reduceMotion) {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotateY = (x - 0.5) * 18;
+      const rotateX = (0.5 - y) * 18;
+      card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+      glare.style.setProperty('--gx', `${x * 100}%`);
+      glare.style.setProperty('--gy', `${y * 100}%`);
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    });
+  }
+
+  // Lead form handler.
+  // Replace FORM_ENDPOINT below with your Formspree (or similar) endpoint URL
+  // to actually receive submissions, e.g. https://formspree.io/f/xxxxxxx
+  const FORM_ENDPOINT = "";
+
+  const form = document.getElementById('leadForm');
+  const msg = document.getElementById('formMsg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!FORM_ENDPOINT) {
+      msg.textContent = "Configure o FORM_ENDPOINT no script para ativar o envio.";
+      return;
+    }
+    const data = new FormData(form);
+    msg.textContent = "Enviando...";
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+      });
+      if (res.ok) {
+        msg.textContent = "Feito! Você está na lista. ✓";
+        form.reset();
+      } else {
+        msg.textContent = "Algo deu errado. Tente novamente.";
+      }
+    } catch (err) {
+      msg.textContent = "Algo deu errado. Tente novamente.";
+    }
+  });
+</script>
+
+</body>
+</html>
