@@ -480,6 +480,30 @@
     color:var(--mint-soft);
     min-height:16px;
   }
+  [data-fs-error] {
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:#ff6b6b;
+    min-height:16px;
+    display:block;
+    margin-top:-8px;
+    margin-bottom:4px;
+  }
+  [data-fs-success] {
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--mint);
+    min-height:16px;
+  }
+  [data-fs-field][aria-invalid="true"] {
+    border-color:#ff6b6b !important;
+    box-shadow:0 0 0 2px rgba(255,107,107,0.2);
+  }
+  button[data-fs-submit-btn][disabled] {
+    opacity:0.6;
+    cursor:not-allowed;
+    transform:none !important;
+  }
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -666,10 +690,13 @@
       </div>
       <div>
         <form id="leadForm">
-          <input type="text" name="nome" placeholder="Seu nome" required lang="pt-BR">
-          <input type="email" name="email" placeholder="Seu melhor e-mail" required lang="pt-BR">
-          <button type="submit">Garantir meu acesso antecipado</button>
-          <div class="form-msg" id="formMsg"></div>
+          <input type="text" name="nome" placeholder="Seu nome" required lang="pt-BR" data-fs-field>
+          <span data-fs-error="nome"></span>
+          <input type="email" name="email" placeholder="Seu melhor e-mail" required lang="pt-BR" data-fs-field>
+          <span data-fs-error="email"></span>
+          <button type="submit" data-fs-submit-btn>Garantir meu acesso antecipado</button>
+          <div data-fs-success class="form-msg" style="color:var(--mint);"></div>
+          <div data-fs-error class="form-msg" style="color:#ff6b6b;"></div>
           <div class="form-note">// os dados ficam só com a MiNT</div>
         </form>
       </div>
@@ -708,45 +735,13 @@
     });
   }
 
-  // Lead form handler
-  // IMPORTANTE: Substitua FORM_ENDPOINT pelo seu endpoint do Formspree (ou similar)
-  // Exemplo: https://formspree.io/f/xxxxxxx
-  const FORM_ENDPOINT = "";
-
-  const form = document.getElementById('leadForm');
-  const msg = document.getElementById('formMsg');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!FORM_ENDPOINT) {
-      msg.textContent = "Configure o FORM_ENDPOINT no script para ativar o envio.";
-      msg.style.color = "var(--gold)";
-      return;
-    }
-    const data = new FormData(form);
-    msg.textContent = "Enviando...";
-    msg.style.color = "var(--mint-soft)";
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        body: data,
-        headers: { "Accept": "application/json" }
-      });
-      if (res.ok) {
-        msg.textContent = "Feito! Você está na lista. ✓";
-        msg.style.color = "var(--mint)";
-        form.reset();
-      } else {
-        const errorData = await res.json().catch(() => ({}));
-        msg.textContent = errorData.message || "Algo deu errado. Tente novamente.";
-        msg.style.color = "#ff6b6b";
-      }
-    } catch (err) {
-      msg.textContent = "Erro de conexão. Verifique sua internet e tente novamente.";
-      msg.style.color = "#ff6b6b";
-    }
-  });
+  // Formspree AJAX integration
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#leadForm', formId: 'xnjezvzp' });
 </script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
+</body>
+</html>
 </body>
 </html>
