@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canvas de Hipóteses — MiNT</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f12;
+    color: #e8e8ec;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .mint-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .mint-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #f4d03f;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .mint-header p {
+    font-size: 13px;
+    color: #9ca3af;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .mint-badge {
+    display: inline-block;
+    background: #1e1e24;
+    border: 1px solid #2d2d35;
+    color: #f4d03f;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid #2d2d35;
+    background: #18181c;
+    color: #e8e8ec;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn:hover {
+    background: #25252c;
+    border-color: #3d3d4a;
+  }
+
+  .btn-primary {
+    background: #f4d03f;
+    color: #0f0f12;
+    border-color: #f4d03f;
+  }
+
+  .btn-primary:hover {
+    background: #e5c130;
+  }
+
+  .btn-danger {
+    background: rgba(239,68,68,0.15);
+    color: #f87171;
+    border-color: rgba(239,68,68,0.3);
+  }
+
+  .btn-danger:hover {
+    background: rgba(239,68,68,0.25);
+  }
+
+  .btn-success {
+    background: rgba(34,197,94,0.15);
+    color: #4ade80;
+    border-color: rgba(34,197,94,0.3);
+  }
+
+  .btn-success:hover {
+    background: rgba(34,197,94,0.25);
+  }
+
+  .canvas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .canvas-block {
+    background: #18181c;
+    border: 1px solid #25252c;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .canvas-block:hover {
+    border-color: #3d3d4a;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .canvas-block.active {
+    border-color: #f4d03f;
+    box-shadow: 0 0 0 1px #f4d03f33, 0 8px 32px rgba(244,208,63,0.08);
+  }
+
+  .block-header {
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #25252c;
+    cursor: pointer;
+  }
+
+  .block-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    cursor: text;
+  }
+
+  .block-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f0f0f5;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .block-title:focus {
+    color: #f4d03f;
+  }
+
+  .block-count {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    background: #1e1e24;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .block-actions {
+    display: flex;
+    gap: 6px;
+    margin-left: 8px;
+  }
+
+  .block-actions .btn {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .hypotheses-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .canvas-block.active .hypotheses-list {
+    max-height: 3000px;
+  }
+
+  .hypothesis-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid #1e1e24;
+    position: relative;
+  }
+
+  .hypothesis-item:hover {
+    background: #1c1c22;
+  }
+
+  .hypothesis-item:last-child {
+    border-bottom: none;
+  }
+
+  .h-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e8e8ec;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+    min-height: 20px;
+  }
+
+  .h-title:focus {
+    color: #f4d03f;
+  }
+
+  .h-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .h-tag {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 11px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    line-height: 1.5;
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+    min-height: 20px;
+  }
+
+  .tag-test {
+    background: rgba(59,130,246,0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(59,130,246,0.15);
+  }
+
+  .tag-metric {
+    background: rgba(34,197,94,0.1);
+    color: #4ade80;
+    border: 1px solid rgba(34,197,94,0.15);
+  }
+
+  .tag-cost {
+    background: rgba(244,63,94,0.1);
+    color: #fb7185;
+    border: 1px solid rgba(244,63,94,0.15);
+  }
+
+  .h-tag:focus {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .h-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .h-actions .btn {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
+  .add-h-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: 1px dashed #2d2d35;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .add-h-btn:hover {
+    border-color: #f4d03f;
+    color: #f4d03f;
+    background: rgba(244,208,63,0.05);
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #9ca3af;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .expand-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal {
+    background: #18181c;
+    border: 1px solid #2d2d35;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .modal h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f0f0f5;
+    margin-bottom: 16px;
+  }
+
+  .modal textarea {
+    width: 100%;
+    min-height: 200px;
+    background: #0f0f12;
+    border: 1px solid #2d2d35;
+    border-radius: 10px;
+    padding: 12px;
+    color: #e8e8ec;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    resize: vertical;
+    margin-bottom: 16px;
+  }
+
+  .modal textarea:focus {
+    outline: none;
+    border-color: #f4d03f;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #25252c;
+    border: 1px solid #3d3d4a;
+    color: #e8e8ec;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  .color-picker {
+    display: flex;
+    gap: 6px;
+    margin-left: 8px;
+  }
+
+  .color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .color-dot:hover, .color-dot.active {
+    border-color: #fff;
+    transform: scale(1.15);
+  }
+
+  @media (max-width: 768px) {
+    .canvas-grid {
+      grid-template-columns: 1fr;
+    }
+    body {
+      padding: 12px;
+    }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="mint-header">
+  <div class="mint-badge">Canvas de Hipóteses — MiNT</div>
+  <h1>Tudo que podemos provar</h1>
+  <p>Clique em qualquer bloco para expandir. Clique no texto para editar. Use os botões para adicionar/remover. Tudo salva automaticamente no navegador.</p>
+</div>
+
+<div class="toolbar">
+  <button class="btn btn-primary" onclick="addBlock()">+ Novo Bloco</button>
+  <button class="btn btn-success" onclick="exportJSON()">📥 Exportar JSON</button>
+  <button class="btn" onclick="document.getElementById('importFile').click()">📤 Importar JSON</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+  <button class="btn btn-danger" onclick="resetDefault()">↺ Resetar Padrão</button>
+</div>
+
+<p class="expand-hint">👇 Clique em qualquer bloco para expandir · Clique no texto para editar</p>
+
+<div class="canvas-grid" id="canvasGrid"></div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Como testar</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#4ade80"></span> Métrica de validação</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#fb7185"></span> Custo do teste</div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Exportar JSON</h3>
+    <textarea id="modalTextarea" readonly></textarea>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Fechar</button>
+      <button class="btn btn-primary" id="modalActionBtn" onclick="copyToClipboard()">Copiar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const COLORS = [
+  '#f4d03f', '#ef4444', '#3b82f6', '#10b981', '#f59e0b',
+  '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#84cc16',
+  '#14b8a6', '#a855f7', '#fb923c', '#e11d48', '#0ea5e9'
+];
+
+const DEFAULT_BLOCKS = [
+  {
+    id: 'proposta',
+    title: 'Proposta de Valor',
+    icon: '💎',
+    color: '#f4d03f',
+    hypotheses: [
+      { text: 'Curadoria humana vale mais do que preço baixo: clientes pagam mais por quem entende o que está em alta', test: 'Oferecer o mesmo produto em 2 versões: "pack padrão" vs "pack curado pela MiNT" com 15% de acréscimo', metric: 'Taxa de conversão do pack curado > 60% das vendas', cost: 'R$ 0 — usar estoque existente' },
+      { text: 'Embalagem premium é percebida como parte do produto, não como custo', test: 'Enviar 10 pedidos com embalagem customizada e 10 com padrão; pedir NPS/feedback', metric: 'NPS da embalagem premium ≥ 8 vs padrão ≤ 6', cost: 'R$ 50-80 em material de teste' },
+      { text: 'Autenticidade é hygiene, não diferencial — o diferencial é a "experiência de abertura"', test: 'Gravar unboxing de 5 clientes reais (com permissão) e medir engajamento vs post de produto', metric: 'Engajamento em unboxing 2x maior que em post de catálogo', cost: 'R$ 0 — conteúdo orgânico' },
+      { text: 'Clientes querem "sentir que estão numa loja física" mesmo online', test: 'Fazer 1 live de abertura de produtos com venda em tempo real no WhatsApp', metric: 'Conversão durante live > conversão de post estático', cost: 'R$ 0 — usar estoque e celular' },
+      { text: 'Garantia de troca/devolução sem burocracia reduz fricção de compra', test: 'Oferecer "garantia MiNT: não gostou, devolvemos em 7 dias" por 1 mês', metric: 'Taxa de conversão sobe +20% e taxa de devolução fica < 5%', cost: 'Risco de devolução de 1-2 produtos' }
+    ]
+  },
+  {
+    id: 'segmento',
+    title: 'Segmentos de Clientes',
+    icon: '🎯',
+    color: '#ef4444',
+    hypotheses: [
+      { text: 'Seguidores do conteúdo convertem 3x melhor que tráfego frio', test: 'Comparar conversão de vendas anunciadas no Instagram (seguidores) vs indicação de fora da base', metric: 'Conversão de seguidores ≥ 15% vs frio ≤ 5%', cost: 'R$ 0 — rastrear origem no WhatsApp' },
+      { text: 'Pais de crianças (8-14 anos) são um público lucrativo e pouco explorado', test: 'Criar 1 post direcionado a pais: "Presente de aniversário pronto em 24h"', metric: 'Pedidos desse post > 3 no primeiro mês', cost: 'R$ 0 — conteúdo orgânico' },
+      { text: 'Jogadores competitivos compram volume, mas exigem singles — não produtos fechados', test: 'Perguntar em grupo de jogadores locais: "vocês compram boosters ou só singles?"', metric: '≥ 70% responde "só singles" → descartar esse segmento por ora', cost: 'R$ 0 — pesquisa qualitativa' },
+      { text: 'Colecionadores de 25-35 anos compram por nostalgia e guardam lacrado', test: 'Oferecer "produtos de investimento" (ETBs antigas, coleções fora de catálogo)', metric: 'Tempo médio de pagamento < 24h (sinal de urgência/nostalgia)', cost: 'Estoque de risco: R$ 200-500' },
+      { text: 'Grupos de WhatsApp/Telegram de Pokémon são canais de aquisição subexplorados', test: 'Entrar em 3 grupos de Pokémon (não concorrentes) e oferecer valor antes de vender', metric: '≥ 1 venda originada de grupo em 2 semanas', cost: 'R$ 0 — tempo de relacionamento' }
+    ]
+  },
+  {
+    id: 'canais',
+    title: 'Canais',
+    icon: '📡',
+    color: '#3b82f6',
+    hypotheses: [
+      { text: 'YouTube gera mais confiança (e vendas) que Instagram/TikTok', test: 'Postar 1 vídeo de review/unboxing no YouTube com link de compra no WhatsApp', metric: 'Vendas originadas do YouTube > Instagram no mesmo período', cost: 'R$ 0 — conteúdo orgânico' },
+      { text: 'WhatsApp é suficiente para escalar até X pedidos/mês antes de precisar de loja', test: 'Medir tempo médio de atendimento por pedido à medida que volume cresce', metric: 'Até 30 pedidos/mês: < 10 min/pedido. Acima disso: gargalo identificado', cost: 'R$ 0 — análise de tempo' },
+      { text: 'Landing page no GitHub Pages converte leads mesmo sem checkout', test: 'Publicar landing page com formulário "Avise-me quando chegar [produto]"', metric: '≥ 10 cadastros em 2 semanas sem anúncio pago', cost: 'R$ 0 — desenvolvimento próprio' },
+      { text: 'Stories com enquete geram mais engajamento que post de catálogo', test: 'Alternar 1 semana de stories interativos vs 1 semana de posts de catálogo', metric: 'Engajamento em stories 3x maior + DMs de interesse', cost: 'R$ 0 — conteúdo orgânico' },
+      { text: 'Indicação boca a boca é canal mais barato que qualquer rede social', test: 'Criar "indique um amigo: ambos ganham 10% na próxima compra"', metric: '≥ 20% dos pedidos com código de indicação em 1 mês', cost: 'R$ 0 — margem de desconto' }
+    ]
+  },
+  {
+    id: 'relacionamento',
+    title: 'Relacionamento',
+    icon: '🤝',
+    color: '#10b981',
+    hypotheses: [
+      { text: 'Atendimento humano no WhatsApp gera recompra mais que velocidade', test: 'Comparar taxa de recompra de clientes atendidos por 1 sócio fixo vs rotativo', metric: 'Recompra do atendimento fixo ≥ 40% em 60 dias', cost: 'R$ 0 — organizar escala' },
+      { text: 'Follow-up pós-compra aumenta satisfação e gera review social', test: 'Mandar mensagem 3 dias após entrega: "tudo certo? manda foto do unboxing"', metric: '≥ 50% responde e ≥ 30% manda foto', cost: 'R$ 0 — tempo' },
+      { text: 'Lista de espera para produtos fora de estoque cria demanda antecipada', test: 'Anunciar produto esgotado com lista de espera no WhatsApp', metric: '≥ 5 pessoas na lista antes de repor estoque', cost: 'R$ 0 — gestão de lista' },
+      { text: 'Comunidade (Discord/Grupo) fideliza mais que programa de pontos', test: 'Criar grupo VIP no WhatsApp para quem comprou 2x', metric: 'Taxa de recompra do grupo VIP ≥ 60% em 90 dias', cost: 'R$ 0 — gestão de grupo' },
+      { text: 'Transparência sobre margem/custo gera lealdade ("open startup" do Pokémon)', test: 'Postar 1 conteúdo mostrando "quanto a MiNT ganha nesse produto"', metric: 'Engajamento e comentários positivos > negativos', cost: 'R$ 0 — conteúdo' }
+    ]
+  },
+  {
+    id: 'receita',
+    title: 'Fontes de Receita',
+    icon: '💰',
+    color: '#f59e0b',
+    hypotheses: [
+      { text: 'Margem fixa de X% funciona melhor que preço dinâmico por demanda', test: 'Vender mesmo produto em 2 momentos: lançamento (alta demanda) e pós-lançamento', metric: 'Margem fixa no lançamento esgota rápido; margem dinâmica maximiza lucro', cost: 'R$ 0 — testar preços' },
+      { text: 'Frete grátis acima de Y valor aumenta ticket médio', test: 'Oferecer "frete grátis acima de R$ 300" por 2 semanas', metric: 'Ticket médio sobe ≥ 25% sem queda de conversão', cost: 'Risco: absorver frete de pedidos maiores' },
+      { text: 'Pacotes temáticos ("kit iniciante", "kit investidor") vendem mais que avulsos', test: 'Montar 3 kits com preço fechado e anunciar', metric: 'Conversão de kits ≥ 30% das vendas do período', cost: 'Estoque existente — apenas reorganização' },
+      { text: 'Adiantamento/pagamento antecipado para reserva de produtos funciona', test: 'Anunciar produto ainda no distribuidor com 50% de entrada', metric: '≥ 3 reservas com pagamento antecipado', cost: 'R$ 0 — risco de cancelamento' },
+      { text: 'Venda casada (produto + sleeve + deck box) aumenta margem sem aumentar CAC', test: 'Oferecer "combo proteção" no momento da venda do produto principal', metric: 'Taxa de adesão ao combo ≥ 25%', cost: 'R$ 100-200 em estoque de acessórios' }
+    ]
+  },
+  {
+    id: 'recursos',
+    title: 'Recursos Chave',
+    icon: '⚙️',
+    color: '#8b5cf6',
+    hypotheses: [
+      { text: '4 sócios são necessários para operar; 3 seriam suficientes', test: 'Mapear horas reais de cada sócio em 1 ciclo completo', metric: '1 sócio fica ocioso > 50% do tempo → redistribuir ou sair', cost: 'R$ 0 — análise de tempo' },
+      { text: 'Estoque próprio é vantagem competitiva vs. dropshipping de cartas', test: 'Comparar tempo de entrega e satisfação: estoque próprio vs. pedido ao distribuidor sob demanda', metric: 'Satisfação estoque próprio ≥ 8/10 vs. sob demanda ≤ 6/10', cost: 'R$ 0 — pesquisa' },
+      { text: 'Marca visual própria (logo, paleta) aumenta percepção de valor antes de vender', test: 'Vender com embalagem genérica vs. embalagem MiNT por 1 semana', metric: 'NPS e percepção de valor da embalagem MiNT > genérica', cost: 'R$ 50-100 em material de teste' },
+      { text: 'Relacionamento com distribuidor oficial é barreira de entrada', test: 'Verificar se concorrentes menores conseguem comprar do mesmo distribuidor', metric: '≥ 3 concorrentes compram do mesmo fornecedor → não é diferencial', cost: 'R$ 0 — pesquisa de mercado' },
+      { text: 'Caixa do WhatsApp é suficiente; CRM só após X clientes', test: 'Contar quantos clientes únicos em 1 mês e quantos se perdem sem anotação', metric: 'Acima de 50 clientes/mês: sem CRM, ≥ 10% de oportunidades se perdem', cost: 'R$ 0 — análise' }
+    ]
+  },
+  {
+    id: 'atividades',
+    title: 'Atividades Chave',
+    icon: '⚡',
+    color: '#ec4899',
+    hypotheses: [
+      { text: 'Criação de conteúdo deve ser 20% do tempo, não 50%', test: 'Registrar horas de cada sócio por 1 semana', metric: 'Conteúdo > 30% do tempo total → redistribuir para vendas/ops', cost: 'R$ 0 — time tracking' },
+      { text: 'Compra coletiva de estoque é mais eficiente que compra individual por sócio', test: '1 ciclo de compra conjunta vs. 1 ciclo de compra individual', metric: 'Margem líquida da compra coletiva > individual por ≥ 5%', cost: 'R$ 0 — comparar ciclos' },
+      { text: 'Padronização de processo de embalagem reduz tempo e erro', test: 'Criar checklist de embalagem e medir tempo antes/depois', metric: 'Tempo de embalagem reduz ≥ 30%', cost: 'R$ 0 — documentação' },
+      { text: 'Reunião semanal de 30 min é suficiente para alinhar 4 sócios', test: 'Testar formato: 15 min alinhamento + 15 min decisão', metric: '≥ 80% das decisões tomadas na reunião vs. adiadas', cost: 'R$ 0 — disciplina' },
+      { text: 'Precificação deve ser feita por 1 sócio, não em consenso de 4', test: '1 ciclo com decisão unilateral de preço vs. 1 ciclo com discussão em grupo', metric: 'Velocidade de precificação: unilateral < 1h vs. grupo > 3h', cost: 'R$ 0 — delegação' }
+    ]
+  },
+  {
+    id: 'parcerias',
+    title: 'Parcerias',
+    icon: '🤝',
+    color: '#06b6d4',
+    hypotheses: [
+      { text: 'Distribuidor oficial dá melhor preço que revenda de outra loja', test: 'Comparar preço final de 3 produtos no distribuidor vs. 3 lojas parceiras', metric: 'Margem do distribuidor ≥ 15% maior que revenda', cost: 'R$ 0 — cotação' },
+      { text: 'Parceria com 1 canal de conteúdo maior gera mais vendas que ads pagos', test: 'Oferecer comissão de 10% para 1 influenciador de Pokémon fazer review', metric: 'Vendas do influenciador > custo equivalente em ads', cost: 'R$ 0 — comissão sobre venda' },
+      { text: 'Correios é suficiente; transportadora só após X volume', test: 'Calcular custo de envio dos primeiros 20 pedidos por Correios', metric: 'Frete médio ≤ 12% do ticket médio → Correios viável', cost: 'R$ 0 — análise de custo' },
+      { text: 'Fornecedor de embalagem personalizada tem MOQ viável para MiNT', test: 'Cotar 100 unidades de caixa customizada', metric: 'Custo unitário ≤ R$ 3,00 → viável', cost: 'R$ 0 — cotação' },
+      { text: 'Loja física parceira pode ser canal de retirada (sem custo de aluguel)', test: 'Negociar com 1 loja de jogos para ser ponto de retirada', metric: '≥ 20% dos pedidos retirados no ponto em 1 mês', cost: 'R$ 0 — comissão sobre retirada' }
+    ]
+  },
+  {
+    id: 'custos',
+    title: 'Estrutura de Custos',
+    icon: '📊',
+    color: '#f97316',
+    hypotheses: [
+      { text: 'Frete é o maior vilão da margem — precifica-se separado ou embutido?', test: 'Testar 2 semanas com frete embutido vs. 2 semanas com frete à parte', metric: 'Conversão frete embutido ≥ conversão frete à parte + ticket médio maior', cost: 'R$ 0 — teste A/B' },
+      { text: 'Impostos simplificados (MEI/ME) são suficientes até X faturamento', test: 'Simular faturamento de 3 cenários: R$ 5k, R$ 15k, R$ 30k/mês', metric: 'MEI viável até R$ 10k; acima disso, custo de contador < 5% do faturamento', cost: 'R$ 0 — simulação' },
+      { text: 'Custo de embalagem deve ser < 5% do ticket médio', test: 'Calcular custo real de caixa, plástico bolha, fita, impressão', metric: 'Custo total de embalagem ≤ R$ 8,00 por pedido médio de R$ 200', cost: 'R$ 0 — análise' },
+      { text: 'Perda/dano em transporte é < 2% dos pedidos', test: 'Registrar ocorrências nos primeiros 50 pedidos', metric: 'Perda/dano ≤ 1 pedido em 50 → seguro não é prioridade', cost: 'R$ 0 — tracking' },
+      { text: 'Cash conversion cycle: dinheiro volta em < 30 dias', test: 'Medir tempo entre pagamento ao distribuidor e recebimento do cliente', metric: 'Ciclo ≤ 21 dias → saudável; > 30 dias → problema de fluxo', cost: 'R$ 0 — controle financeiro' }
+    ]
+  }
+];
+
+let blocks = [];
+
+function loadBlocks() {
+  const saved = localStorage.getItem('mint_canvas_blocks');
+  if (saved) {
+    try {
+      blocks = JSON.parse(saved);
+    } catch(e) {
+      blocks = JSON.parse(JSON.stringify(DEFAULT_BLOCKS));
+    }
+  } else {
+    blocks = JSON.parse(JSON.stringify(DEFAULT_BLOCKS));
+  }
+}
+
+function saveBlocks() {
+  localStorage.setItem('mint_canvas_blocks', JSON.stringify(blocks));
+}
+
+function generateId() {
+  return 'block_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+function render() {
+  const grid = document.getElementById('canvasGrid');
+  grid.innerHTML = '';
+
+  blocks.forEach((block, blockIndex) => {
+    const el = document.createElement('div');
+    el.className = 'canvas-block';
+    el.dataset.index = blockIndex;
+
+    const header = document.createElement('div');
+    header.className = 'block-header';
+    header.onclick = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.classList.contains('color-dot')) return;
+      toggleBlock(el);
+    };
+
+    const colorPicker = document.createElement('div');
+    colorPicker.className = 'color-picker';
+    COLORS.forEach(c => {
+      const dot = document.createElement('div');
+      dot.className = 'color-dot' + (block.color === c ? ' active' : '');
+      dot.style.background = c;
+      dot.onclick = (e) => {
+        e.stopPropagation();
+        block.color = c;
+        saveBlocks();
+        render();
+      };
+      colorPicker.appendChild(dot);
+    });
+
+    const iconInput = document.createElement('div');
+    iconInput.className = 'block-icon';
+    iconInput.style.background = block.color + '22';
+    iconInput.style.color = block.color;
+    iconInput.contentEditable = true;
+    iconInput.textContent = block.icon;
+    iconInput.onblur = () => {
+      block.icon = iconInput.textContent;
+      saveBlocks();
+    };
+    iconInput.onkeydown = (e) => { if(e.key==='Enter'){e.preventDefault();iconInput.blur();} };
+
+    const titleInput = document.createElement('input');
+    titleInput.className = 'block-title';
+    titleInput.value = block.title;
+    titleInput.oninput = () => {
+      block.title = titleInput.value;
+      saveBlocks();
+    };
+
+    const count = document.createElement('div');
+    count.className = 'block-count';
+    count.textContent = block.hypotheses.length + ' hipóteses';
+
+    const actions = document.createElement('div');
+    actions.className = 'block-actions';
+    actions.innerHTML = `
+      <button class="btn btn-danger" onclick="event.stopPropagation(); removeBlock(${blockIndex})">🗑</button>
+    `;
+
+    header.appendChild(iconInput);
+    header.appendChild(titleInput);
+    header.appendChild(count);
+    header.appendChild(actions);
+
+    const list = document.createElement('div');
+    list.className = 'hypotheses-list';
+
+    block.hypotheses.forEach((h, hIndex) => {
+      const item = document.createElement('div');
+      item.className = 'hypothesis-item';
+
+      const title = document.createElement('textarea');
+      title.className = 'h-title';
+      title.rows = 2;
+      title.value = h.text;
+      title.oninput = () => {
+        block.hypotheses[hIndex].text = title.value;
+        saveBlocks();
+      };
+
+      const meta = document.createElement('div');
+      meta.className = 'h-meta';
+
+      const testTag = document.createElement('textarea');
+      testTag.className = 'h-tag tag-test';
+      testTag.rows = 2;
+      testTag.value = h.test;
+      testTag.oninput = () => {
+        block.hypotheses[hIndex].test = testTag.value;
+        saveBlocks();
+      };
+
+      const metricTag = document.createElement('textarea');
+      metricTag.className = 'h-tag tag-metric';
+      metricTag.rows = 2;
+      metricTag.value = h.metric;
+      metricTag.oninput = () => {
+        block.hypotheses[hIndex].metric = metricTag.value;
+        saveBlocks();
+      };
+
+      const costTag = document.createElement('textarea');
+      costTag.className = 'h-tag tag-cost';
+      costTag.rows = 2;
+      costTag.value = h.cost;
+      costTag.oninput = () => {
+        block.hypotheses[hIndex].cost = costTag.value;
+        saveBlocks();
+      };
+
+      const hActions = document.createElement('div');
+      hActions.className = 'h-actions';
+      hActions.innerHTML = `<button class="btn btn-danger" onclick="removeHypothesis(${blockIndex}, ${hIndex})">Remover Hipótese</button>`;
+
+      meta.appendChild(testTag);
+      meta.appendChild(metricTag);
+      meta.appendChild(costTag);
+
+      item.appendChild(title);
+      item.appendChild(meta);
+      item.appendChild(hActions);
+      list.appendChild(item);
+    });
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'add-h-btn';
+    addBtn.textContent = '+ Nova Hipótese';
+    addBtn.onclick = () => addHypothesis(blockIndex);
+    list.appendChild(addBtn);
+
+    el.appendChild(header);
+    el.appendChild(list);
+    grid.appendChild(el);
+  });
+}
+
+function toggleBlock(el) {
+  const isActive = el.classList.contains('active');
+  document.querySelectorAll('.canvas-block').forEach(b => b.classList.remove('active'));
+  if (!isActive) el.classList.add('active');
+}
+
+function addBlock() {
+  const color = COLORS[blocks.length % COLORS.length];
+  blocks.push({
+    id: generateId(),
+    title: 'Novo Bloco',
+    icon: '✨',
+    color: color,
+    hypotheses: []
+  });
+  saveBlocks();
+  render();
+  showToast('Bloco adicionado!');
+}
+
+function removeBlock(index) {
+  if (!confirm('Tem certeza que quer remover este bloco e todas as suas hipóteses?')) return;
+  blocks.splice(index, 1);
+  saveBlocks();
+  render();
+  showToast('Bloco removido');
+}
+
+function addHypothesis(blockIndex) {
+  blocks[blockIndex].hypotheses.push({
+    text: 'Descreva sua hipótese aqui...',
+    test: 'Como testar: descreva o experimento',
+    metric: 'Métrica: o que medir para validar',
+    cost: 'Custo: quanto custa esse teste'
+  });
+  saveBlocks();
+  render();
+  // Reabrir o bloco
+  setTimeout(() => {
+    const el = document.querySelector(`[data-index="${blockIndex}"]`);
+    if (el) el.classList.add('active');
+  }, 50);
+  showToast('Hipótese adicionada!');
+}
+
+function removeHypothesis(blockIndex, hIndex) {
+  if (!confirm('Remover esta hipótese?')) return;
+  blocks[blockIndex].hypotheses.splice(hIndex, 1);
+  saveBlocks();
+  render();
+  setTimeout(() => {
+    const el = document.querySelector(`[data-index="${blockIndex}"]`);
+    if (el) el.classList.add('active');
+  }, 50);
+  showToast('Hipótese removida');
+}
+
+function exportJSON() {
+  const data = JSON.stringify(blocks, null, 2);
+  document.getElementById('modalTitle').textContent = 'Exportar JSON (copie ou salve)';
+  document.getElementById('modalTextarea').value = data;
+  document.getElementById('modalActionBtn').textContent = 'Copiar';
+  document.getElementById('modalActionBtn').onclick = copyToClipboard;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (Array.isArray(data) && data.length > 0) {
+        blocks = data;
+        saveBlocks();
+        render();
+        showToast('JSON importado com sucesso!');
+      } else {
+        alert('Arquivo JSON inválido');
+      }
+    } catch(err) {
+      alert('Erro ao ler o arquivo: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function resetDefault() {
+  if (!confirm('Isso vai apagar TODAS as alterações e voltar ao padrão. Tem certeza?')) return;
+  blocks = JSON.parse(JSON.stringify(DEFAULT_BLOCKS));
+  saveBlocks();
+  render();
+  showToast('Canvas resetado para o padrão');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+
+function copyToClipboard() {
+  const textarea = document.getElementById('modalTextarea');
+  textarea.select();
+  document.execCommand('copy');
+  showToast('Copiado para a área de transferência!');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Fechar modal ao clicar fora
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+
+// Inicializar
+loadBlocks();
+render();
+</script>
+
+</body>
+</html>
