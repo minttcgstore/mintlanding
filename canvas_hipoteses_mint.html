@@ -359,7 +359,7 @@
     border: 1px solid #2d2d35;
     border-radius: 16px;
     padding: 24px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
   }
 
@@ -367,12 +367,19 @@
     font-size: 16px;
     font-weight: 700;
     color: #f0f0f5;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+  }
+
+  .modal p {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    line-height: 1.5;
   }
 
   .modal textarea {
     width: 100%;
-    min-height: 200px;
+    min-height: 280px;
     background: #0f0f12;
     border: 1px solid #2d2d35;
     border-radius: 10px;
@@ -447,20 +454,20 @@
     }
   }
 </style>
+<base target="_blank">
 </head>
 <body>
 
 <div class="mint-header">
   <div class="mint-badge">Canvas de Hipóteses — MiNT</div>
   <h1>Tudo que podemos provar</h1>
-  <p>Clique em qualquer bloco para expandir. Clique no texto para editar. Use os botões para adicionar/remover. Tudo salva automaticamente no navegador.</p>
+  <p>Clique em qualquer bloco para expandir. Clique no texto para editar. Tudo salva automaticamente no navegador.</p>
 </div>
 
 <div class="toolbar">
   <button class="btn btn-primary" onclick="addBlock()">+ Novo Bloco</button>
-  <button class="btn btn-success" onclick="exportJSON()">📥 Exportar JSON</button>
-  <button class="btn" onclick="document.getElementById('importFile').click()">📤 Importar JSON</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+  <button class="btn btn-success" onclick="exportJSON()">📋 Copiar JSON</button>
+  <button class="btn" onclick="openImportModal()">📥 Colar JSON</button>
   <button class="btn btn-danger" onclick="resetDefault()">↺ Resetar Padrão</button>
 </div>
 
@@ -474,13 +481,15 @@
   <div class="legend-item"><span class="legend-dot" style="background:#fb7185"></span> Custo do teste</div>
 </div>
 
-<div class="modal-overlay" id="modalOverlay">
+<!-- Modal Importar -->
+<div class="modal-overlay" id="importModal">
   <div class="modal">
-    <h3 id="modalTitle">Exportar JSON</h3>
-    <textarea id="modalTextarea" readonly></textarea>
+    <h3>📥 Importar JSON</h3>
+    <p>Cole o JSON abaixo e clique em "Substituir". Isso vai <strong>apagar</strong> o canvas atual e colocar o novo conteúdo.</p>
+    <textarea id="importTextarea" placeholder='Cole aqui o JSON que você copiou anteriormente...'></textarea>
     <div class="modal-actions">
-      <button class="btn" onclick="closeModal()">Fechar</button>
-      <button class="btn btn-primary" id="modalActionBtn" onclick="copyToClipboard()">Copiar</button>
+      <button class="btn" onclick="closeImportModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="applyImport()">Substituir Canvas</button>
     </div>
   </div>
 </div>
@@ -649,7 +658,7 @@ function render() {
     const header = document.createElement('div');
     header.className = 'block-header';
     header.onclick = (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.classList.contains('color-dot')) return;
+      if (e.target.tagName === 'INPUT' || e.target.classList.contains('color-dot') || e.target.tagName === 'BUTTON') return;
       toggleBlock(el);
     };
 
@@ -812,7 +821,6 @@ function addHypothesis(blockIndex) {
   });
   saveBlocks();
   render();
-  // Reabrir o bloco
   setTimeout(() => {
     const el = document.querySelector(`[data-index="${blockIndex}"]`);
     if (el) el.classList.add('active');
@@ -832,36 +840,65 @@ function removeHypothesis(blockIndex, hIndex) {
   showToast('Hipótese removida');
 }
 
-function exportJSON() {
+// ========== EXPORTAR: copia direto pro clipboard ==========
+async function exportJSON() {
   const data = JSON.stringify(blocks, null, 2);
-  document.getElementById('modalTitle').textContent = 'Exportar JSON (copie ou salve)';
-  document.getElementById('modalTextarea').value = data;
-  document.getElementById('modalActionBtn').textContent = 'Copiar';
-  document.getElementById('modalActionBtn').onclick = copyToClipboard;
-  document.getElementById('modalOverlay').classList.add('active');
+  try {
+    await navigator.clipboard.writeText(data);
+    showToast('📋 JSON copiado! Cole onde quiser.');
+  } catch (err) {
+    // Fallback para navegadores antigos
+    const textarea = document.createElement('textarea');
+    textarea.value = data;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('📋 JSON copiado! Cole onde quiser.');
+  }
 }
 
-function importJSON(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (Array.isArray(data) && data.length > 0) {
-        blocks = data;
-        saveBlocks();
-        render();
-        showToast('JSON importado com sucesso!');
-      } else {
-        alert('Arquivo JSON inválido');
-      }
-    } catch(err) {
-      alert('Erro ao ler o arquivo: ' + err.message);
+// ========== IMPORTAR: modal com textarea pra colar ==========
+function openImportModal() {
+  document.getElementById('importTextarea').value = '';
+  document.getElementById('importModal').classList.add('active');
+  setTimeout(() => document.getElementById('importTextarea').focus(), 100);
+}
+
+function closeImportModal() {
+  document.getElementById('importModal').classList.remove('active');
+}
+
+function applyImport() {
+  const raw = document.getElementById('importTextarea').value.trim();
+  if (!raw) {
+    showToast('⚠️ Cole um JSON primeiro');
+    return;
+  }
+  try {
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data)) {
+      alert('O JSON precisa ser uma lista (array) de blocos.');
+      return;
     }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
+    // Validação básica
+    for (let i = 0; i < data.length; i++) {
+      const b = data[i];
+      if (!b.title || !Array.isArray(b.hypotheses)) {
+        alert('Bloco ' + (i+1) + ' está com formato inválido. Cada bloco precisa de "title" e "hypotheses".');
+        return;
+      }
+    }
+    blocks = data;
+    saveBlocks();
+    render();
+    closeImportModal();
+    showToast('✅ Canvas substituído com sucesso!');
+  } catch(err) {
+    alert('Erro ao ler o JSON: ' + err.message);
+  }
 }
 
 function resetDefault() {
@@ -872,17 +909,6 @@ function resetDefault() {
   showToast('Canvas resetado para o padrão');
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('active');
-}
-
-function copyToClipboard() {
-  const textarea = document.getElementById('modalTextarea');
-  textarea.select();
-  document.execCommand('copy');
-  showToast('Copiado para a área de transferência!');
-}
-
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -891,8 +917,17 @@ function showToast(msg) {
 }
 
 // Fechar modal ao clicar fora
-document.getElementById('modalOverlay').addEventListener('click', (e) => {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
+document.getElementById('importModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('importModal')) closeImportModal();
+});
+
+// Atalho Ctrl+S salva (mesmo que já salve automático)
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    saveBlocks();
+    showToast('💾 Salvo!');
+  }
 });
 
 // Inicializar
@@ -900,5 +935,7 @@ loadBlocks();
 render();
 </script>
 
+</body>
+</html>
 </body>
 </html>
