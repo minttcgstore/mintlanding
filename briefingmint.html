@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Universo Mint — Briefing de Marca</title>
+<meta name="description" content="Um mapa de significados, mitos e sensações que orbitam o nome Mint — território para explorar antes de desenhar a marca.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,440;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a120d;
+    --bg-deep: #060a08;
+    --panel: #101d16;
+    --panel-line: rgba(143,239,192,0.14);
+    --mint: #8fefc0;
+    --mint-dim: #4f9d78;
+    --gold: #d3ac68;
+    --coral: #dd7a5e;
+    --ink: #eaf3ec;
+    --ink-dim: #9db3a6;
+    --serif: "Fraunces", serif;
+    --sans: "Manrope", sans-serif;
+    --mono: "IBM Plex Mono", monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: var(--mint); }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mint-dim);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 1.5rem 4rem;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 15%, rgba(143,239,192,0.10), transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(221,122,94,0.08), transparent 45%),
+      var(--bg-deep);
+  }
+
+  .hero-leaf{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(90vw, 900px);
+    transform: translate(-50%,-50%);
+    opacity: 0.05;
+    pointer-events: none;
+  }
+
+  .hero-inner{ position: relative; max-width: 780px; }
+
+  .hero h1{
+    font-family: var(--serif);
+    font-weight: 440;
+    font-size: clamp(2.6rem, 7vw, 4.6rem);
+    margin: 0.9rem 0 1.1rem;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em{
+    font-style: italic;
+    font-weight: 400;
+    color: var(--mint);
+  }
+
+  .hero p{
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--ink-dim);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .hero-note{
+    margin-top: 2.2rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--mint-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .scroll-cue{
+    margin-top: 3rem;
+    width: 1px;
+    height: 46px;
+    background: linear-gradient(var(--mint-dim), transparent);
+    animation: pulse-cue 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse-cue{
+    0%,100%{ opacity: 0.25; }
+    50%{ opacity: 0.9; }
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{
+    padding: 6rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-head{ max-width: 620px; margin-bottom: 3rem; }
+  .section-head h2{
+    font-family: var(--serif);
+    font-weight: 440;
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    margin: 0.6rem 0 0.8rem;
+  }
+  .section-head p{ color: var(--ink-dim); margin: 0; }
+
+  /* ---------- CONSTELLATION ---------- */
+  .constellation-wrap{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .leaf-stage{
+    position: relative;
+    aspect-ratio: 3 / 4;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .leaf-stage svg{ width: 100%; height: 100%; overflow: visible; }
+
+  .leaf-outline{ fill: rgba(143,239,192,0.03); stroke: rgba(143,239,192,0.18); stroke-width: 1.5; }
+  .leaf-vein{ stroke: rgba(143,239,192,0.14); stroke-width: 1; fill: none; }
+  .constellation-line{
+    stroke: var(--mint-dim);
+    stroke-width: 1;
+    fill: none;
+    opacity: 0.55;
+    transition: opacity 0.3s ease, stroke 0.3s ease;
+  }
+  .constellation-line.is-active{ stroke: var(--mint); opacity: 1; }
+
+  .star-btn{
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    transform: translate(-50%,-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+  .star-dot{
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--mint-dim);
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 0 0 rgba(143,239,192,0.4);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .star-btn:hover .star-dot, .star-btn:focus-visible .star-dot{
+    background: var(--mint);
+    transform: translate(-50%,-50%) scale(1.3);
+  }
+  .star-btn.is-active .star-dot{
+    background: var(--mint);
+    box-shadow: 0 0 0 7px rgba(143,239,192,0.12);
+    animation: twinkle 2.6s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .star-btn.is-active .star-dot{ animation: none; }
+    .scroll-cue{ animation: none; }
+  }
+  @keyframes twinkle{
+    0%,100%{ box-shadow: 0 0 0 7px rgba(143,239,192,0.10); }
+    50%{ box-shadow: 0 0 0 10px rgba(143,239,192,0.18); }
+  }
+  .star-btn:focus-visible{ outline: 1px dashed var(--mint); outline-offset: 4px; border-radius: 50%; }
+
+  .star-label{
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, 10px);
+    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-dim);
+    pointer-events: none;
+  }
+
+  /* content panel + index list */
+  .panel-side{ display: flex; flex-direction: column; gap: 1.4rem; }
+
+  .node-index{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .node-chip{
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--panel-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .node-chip:hover{ color: var(--mint); border-color: var(--mint-dim); }
+  .node-chip.is-active{ color: var(--bg-deep); background: var(--mint); border-color: var(--mint); }
+
+  .panel{
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 6px;
+    padding: 2rem;
+    min-height: 340px;
+  }
+  .panel-tag{ font-family: var(--mono); font-size: 0.7rem; color: var(--mint-dim); letter-spacing: 0.1em; }
+  .panel h3{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.6rem;
+    margin: 0.5rem 0 1rem;
+    color: var(--mint);
+  }
+  .panel p{ color: var(--ink-dim); margin: 0 0 1rem; }
+  .panel-questions{
+    margin: 1.2rem 0 0;
+    padding: 1.2rem 0 0;
+    border-top: 1px solid var(--panel-line);
+    list-style: none;
+  }
+  .panel-questions li{
+    position: relative;
+    padding-left: 1.3rem;
+    margin-bottom: 0.85rem;
+    font-size: 0.94rem;
+  }
+  .panel-questions li::before{
+    content: "?";
+    position: absolute;
+    left: 0; top: 0;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold);
+  }
+  .panel-questions li:last-child{ margin-bottom: 0; }
+
+  @media (max-width: 860px){
+    .constellation-wrap{ grid-template-columns: 1fr; }
+    .leaf-stage{ margin-bottom: 1rem; }
+    .star-label{ display: none; }
+  }
+
+  /* ---------- CROSS-POLLINATION ---------- */
+  .cross-table{
+    border: 1px solid var(--panel-line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .cross-row{
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .cross-row:last-child{ border-bottom: none; }
+  .cross-row > div{ padding: 1.4rem 1.6rem; }
+  .cross-key{
+    background: var(--panel);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+  }
+  .cross-val{ color: var(--ink-dim); font-size: 0.94rem; }
+  @media (max-width: 700px){
+    .cross-row{ grid-template-columns: 1fr; }
+    .cross-key{ padding-bottom: 0.6rem; }
+  }
+
+  /* ---------- FINAL QUESTIONS ---------- */
+  .finale{
+    background: radial-gradient(ellipse at 50% 0%, rgba(211,172,104,0.07), transparent 60%), var(--bg-deep);
+  }
+  .finale-list{ list-style: none; padding: 0; margin: 0 0 3rem; }
+  .finale-list li{
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--panel-line);
+    color: var(--ink);
+  }
+  .finale-list li:first-child{ padding-top: 0; }
+  .finale-list li span{
+    display: block;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--mint-dim);
+    margin-bottom: 0.6rem;
+  }
+
+  .closing{
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .closing p{
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--mint);
+  }
+  .closing p:last-child{ color: var(--ink-dim); font-size: 1rem; font-family: var(--sans); margin-top: 1rem; }
+
+  /* ---------- REFERÊNCIAS ---------- */
+  .refs{ background: var(--bg-deep); }
+  .refs-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--panel-line);
+  }
+  .refs-list li{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .ref-desc{
+    color: var(--ink-dim);
+    font-size: 0.94rem;
+  }
+  .ref-link{
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    color: var(--mint);
+    white-space: nowrap;
+    text-decoration: none;
+    border-bottom: 1px solid var(--mint-dim);
+  }
+  .ref-link:hover{ color: var(--gold); border-color: var(--gold); }
+  @media (max-width: 600px){
+    .refs-list li{ flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+  }
+
+  footer{
+    padding: 3rem 1.5rem 4rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--mint-dim);
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <svg class="hero-leaf" viewBox="0 0 600 800" aria-hidden="true">
+    <path class="leaf-outline" d="M300,780 C120,780 40,560 60,400 C80,220 180,80 300,20 C420,80 520,220 540,400 C560,560 480,780 300,780 Z"/>
+  </svg>
+  <div class="hero-inner">
+    <p class="eyebrow">Mint TCG Store — documento de exploração de marca</p>
+    <h1>O Universo <em>Mint</em></h1>
+    <p>Um mapa de significados, mitos e gatilhos sensoriais que orbitam o nome da marca. Não é um logo pronto — é um território para habitar até algo clicar sozinho.</p>
+    <p class="hero-note">8 constelações · clique nas estrelas para explorar</p>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<section id="constelacao">
+  <div class="section-head">
+    <p class="eyebrow">01 — o mapa</p>
+    <h2>A constelação Mint</h2>
+    <p>Cada estrela é uma porta. As linhas que as conectam são as mesmas veias da folha — a mitologia e a botânica desenhando o mesmo traço.</p>
+  </div>
+
+  <div class="constellation-wrap">
+    <div class="leaf-stage">
+      <svg viewBox="0 0 600 800" id="leaf-svg" aria-hidden="true">
+        <path class="leaf-outline" d="M300,780 C120,780 40,560 60,400 C80,220 180,80 300,20 C420,80 520,220 540,400 C560,560 480,780 300,780 Z"/>
+        <path class="leaf-vein" d="M300,760 Q290,500 300,60"/>
+        <path class="leaf-vein" d="M300,650 Q220,625 160,590"/>
+        <path class="leaf-vein" d="M300,650 Q380,625 440,590"/>
+        <path class="leaf-vein" d="M300,520 Q210,490 130,455"/>
+        <path class="leaf-vein" d="M300,520 Q390,490 470,455"/>
+        <path class="leaf-vein" d="M300,390 Q225,355 150,318"/>
+        <path class="leaf-vein" d="M300,390 Q375,355 450,318"/>
+        <path class="leaf-vein" d="M300,260 Q235,220 190,182"/>
+        <path class="leaf-vein" d="M300,260 Q365,220 410,182"/>
+
+        <path class="constellation-line" data-node="0" d="M300,650 L140,600"/>
+        <path class="constellation-line" data-node="1" d="M300,650 L460,600"/>
+        <path class="constellation-line" data-node="2" d="M300,520 L110,460"/>
+        <path class="constellation-line" data-node="3" d="M300,520 L490,460"/>
+        <path class="constellation-line" data-node="4" d="M300,390 L130,320"/>
+        <path class="constellation-line" data-node="5" d="M300,390 L470,320"/>
+        <path class="constellation-line" data-node="6" d="M300,260 L170,180"/>
+        <path class="constellation-line" data-node="7" d="M300,260 L430,180"/>
+      </svg>
+
+      <button class="star-btn" data-node="0" style="top:75%; left:23.3%;"><span class="star-dot"></span><span class="star-label">O mito</span></button>
+      <button class="star-btn" data-node="1" style="top:75%; left:76.7%;"><span class="star-dot"></span><span class="star-label">A planta</span></button>
+      <button class="star-btn" data-node="2" style="top:57.5%; left:18.3%;"><span class="star-dot"></span><span class="star-label">A fábrica</span></button>
+      <button class="star-btn" data-node="3" style="top:57.5%; left:81.7%;"><span class="star-dot"></span><span class="star-label">A sensação</span></button>
+      <button class="star-btn" data-node="4" style="top:40%; left:21.7%;"><span class="star-dot"></span><span class="star-label">O colecionador</span></button>
+      <button class="star-btn" data-node="5" style="top:40%; left:78.3%;"><span class="star-dot"></span><span class="star-label">O caçador</span></button>
+      <button class="star-btn" data-node="6" style="top:22.5%; left:28.3%;"><span class="star-dot"></span><span class="star-label">O anfitrião</span></button>
+      <button class="star-btn" data-node="7" style="top:22.5%; left:71.7%;"><span class="star-dot"></span><span class="star-label">O alquimista</span></button>
+    </div>
+
+    <div class="panel-side">
+      <div class="node-index" id="node-index"></div>
+      <div class="panel" id="panel">
+        <p class="panel-tag" id="panel-tag"></p>
+        <h3 id="panel-title"></h3>
+        <div id="panel-body"></div>
+        <ul class="panel-questions" id="panel-questions"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cruzamentos">
+  <div class="section-head">
+    <p class="eyebrow">02 — zonas de cruzamento</p>
+    <h2>Onde duas constelações se sobrepõem</h2>
+    <p>Novas ideias nascem na fronteira entre dois territórios.</p>
+  </div>
+  <div class="cross-table">
+    <div class="cross-row">
+      <div class="cross-key">Planta × Fábrica</div>
+      <div class="cross-val">Uma folha carimbada como moeda; uma folha quadrada (caule quadrado + formato de carta); um espécime botânico prensado que parece uma carta graduada.</div>
+    </div>
+    <div class="cross-row">
+      <div class="cross-key">Mito × Colecionador</div>
+      <div class="cross-val">Uma folha preservada em âmbar, gelo ou case; o submundo como o pacote lacrado — desconhecido, escuro, cheio de tesouros.</div>
+    </div>
+    <div class="cross-row">
+      <div class="cross-key">Sensação × Caçador</div>
+      <div class="cross-val">O estalo do fresco é o pull do pacote; bordas nítidas são folhas nítidas; a sensação fria de achar a carta certa.</div>
+    </div>
+    <div class="cross-row">
+      <div class="cross-key">Anfitrião × Alquimista</div>
+      <div class="cross-val">A loja como o lugar onde cartas comuns viram ouro (valor); receber convidados numa mesa de tesouros.</div>
+    </div>
+    <div class="cross-row">
+      <div class="cross-key">Planta × Caçador</div>
+      <div class="cross-val">Um jardim que vira floresta é uma coleção que se expande; a hortelã invasora é o hobby que toma conta da sua vida — de um jeito bom.</div>
+    </div>
+  </div>
+</section>
+
+<section class="finale" id="perguntas-finais">
+  <div class="section-head">
+    <p class="eyebrow">03 — antes de desenhar</p>
+    <h2>Perguntas para sentar e pensar</h2>
+    <p>Em vez de ideias de logo, aqui estão as perguntas que valem mais que qualquer rascunho.</p>
+  </div>
+
+  <ul class="finale-list">
+    <li><span>guardiã ou caçadora</span>Mint protege ou persegue? É guardiã de coisas perfeitas, ou caçadora que as traz de volta da natureza selvagem?</li>
+    <li><span>viva ou preservada</span>A folha está viva ou preservada? Fresca e verde sugere crescimento e comunidade; prensada e dourada sugere valor e raridade; congelada e encapsulada sugere grading.</li>
+    <li><span>a quadratura</span>O que é essa quadratura? O caule da hortelã é quadrado. As cartas são retângulos. Os cases também. Existe uma honestidade geométrica em abraçar o quadrado?</li>
+    <li><span>o que é fresco</span>Como é "fresco" em forma de logo? Não necessariamente verde — talvez bordas nítidas, alto contraste, cortes limpos, espaço negativo que respira.</li>
+    <li><span>a ninfa da história</span>Quem é a ninfa nessa história? Toda carta já foi uma ninfa — bonita, desconhecida, escondida no submundo do pacote. Seu amigo é Hades... ou Perséfone... ou o jardineiro que cultiva o que emerge.</li>
+  </ul>
+
+  <div class="closing">
+    <p>"O logo não é um quebra-cabeça a resolver."</p>
+    <p>É uma mitologia para habitar. Quando a história certa soar verdadeira, a forma aparece sozinha.</p>
+  </div>
+</section>
+
+<section class="refs" id="referencias">
+  <div class="section-head">
+    <p class="eyebrow">04 — referências</p>
+    <h2>Onde buscar inspiração</h2>
+    <p>Arquivos, comunidades e blogs para olhar depois de decidir qual história da constelação vai guiar o logo.</p>
+  </div>
+
+  <ul class="refs-list">
+    <li><span class="ref-desc">Biblioteca curada com mais de 1.200 logos, com filtros por estilo, cor, setor e tipo — sem IA.</span><a class="ref-link" href="https://logosystem.co/" target="_blank" rel="noopener">logosystem.co</a></li>
+    <li><span class="ref-desc">Um dos maiores arquivos de logos do mundo, referência clássica com relatórios anuais de tendências.</span><a class="ref-link" href="https://www.logolounge.com/" target="_blank" rel="noopener">logolounge.com</a></li>
+    <li><span class="ref-desc">Comunidade onde designers compartilham conceitos de logo e ideias criativas.</span><a class="ref-link" href="https://logopond.com/" target="_blank" rel="noopener">logopond.com</a></li>
+    <li><span class="ref-desc">Plataforma de portfólio da Adobe, com processo criativo e estratégia por trás dos projetos.</span><a class="ref-link" href="https://www.behance.net/" target="_blank" rel="noopener">behance.net</a></li>
+    <li><span class="ref-desc">Comunidade gigante de designers, ótima para ver tendências atuais.</span><a class="ref-link" href="https://dribbble.com/" target="_blank" rel="noopener">dribbble.com</a></li>
+    <li><span class="ref-desc">Focado em tipografia, com exemplos reais de uso de fontes em identidades visuais.</span><a class="ref-link" href="https://www.typewolf.com/" target="_blank" rel="noopener">typewolf.com</a></li>
+    <li><span class="ref-desc">Arquivo independente que documenta como fontes são aplicadas em projetos reais, incluindo logos.</span><a class="ref-link" href="https://fontsinuse.com/" target="_blank" rel="noopener">fontsinuse.com</a></li>
+    <li><span class="ref-desc">Diretório curado e gratuito de logos, com opção de criar moodboards.</span><a class="ref-link" href="https://www.logofolio.co/" target="_blank" rel="noopener">logofolio.co</a></li>
+    <li><span class="ref-desc">Arquivo minimalista com logos em preto e branco, ótimo para estudar estrutura e forma.</span><a class="ref-link" href="https://logobook.com/" target="_blank" rel="noopener">logobook.com</a></li>
+    <li><span class="ref-desc">Curadoria reflexiva de trabalhos de branding, explicando processo e história.</span><a class="ref-link" href="https://brandinreview.com/" target="_blank" rel="noopener">brandinreview.com</a></li>
+    <li><span class="ref-desc">Blog especializado em branding e embalagem, com análises críticas de identidade visual.</span><a class="ref-link" href="https://bpando.org/" target="_blank" rel="noopener">bpando.org</a></li>
+  </ul>
+</section>
+
+<footer>mint tcg store · mapa de marca · uso interno</footer>
+
+<script>
+  const nodes = [
+    {
+      tag: "espécime 01 — o mito",
+      title: "Minthe no Submundo",
+      label: "O mito",
+      body: [
+        "Na mitologia grega, Minthe era uma ninfa do rio Cocito, no submundo, e amante de Hades. Quando Perséfone descobriu o caso, transformou Minthe em planta — ou, em algumas versões, a pisoteou até virar pó. Hades fez a hortelã brotar dali, para que o perfume dela encantasse para sempre.",
+        "Não é só uma história de ciúme. É uma história de transformação sob pressão: Perséfone esmaga, Hades eleva. A planta se torna imortal através da destruição."
+      ],
+      questions: [
+        "E se o logo não for sobre uma folha perfeita, mas sobre uma folha que sobreviveu a ser esmagada e se tornou mais valiosa?",
+        "E se \"mint\" sugerir não só preservação, mas ressurreição — toda carta em mint condition é uma pequena ressurreição do pacote?",
+        "Pokémon tem tipos Fantasma e Sombrio, mas também o mistério do pull — o desconhecido sob o papel-alumínio. O logo pode insinuar profundezas escondidas?"
+      ]
+    },
+    {
+      tag: "espécime 02 — a planta",
+      title: "Rebelião Botânica",
+      label: "A planta",
+      body: [
+        "A hortelã é estruturalmente estranha: enquanto a maioria das plantas tem caule redondo, o dela é quadrado. As folhas crescem em pares opostos, cruzados um sobre o outro, com bordas serrilhadas e veias que capturam luz como papel-alumínio holográfico.",
+        "É também famosamente invasora — se espalha por rizomas subterrâneos, enraizando onde toca o solo. Não dá pra matar. Toma conta do jardim. É, em termos de jardinagem, \"uma erva daninha com benefícios\"."
+      ],
+      questions: [
+        "Caule quadrado + folhas opostas = simetria geométrica. O logo pode brincar com essa quadratura — uma folha quadrada, um caule que emoldura como a borda de uma carta?",
+        "A qualidade invasora: e se a marca sugerir que uma boa coleção se espalha — que uma carta mint puxa outra, que o hobby toma conta da sua vida de um jeito bom?",
+        "As veias da folha, vistas de perto, lembram os riscos do padrão holo numa carta graduada. Uma vista macro da folha poderia virar textura de carta?"
+      ]
+    },
+    {
+      tag: "espécime 03 — a fábrica",
+      title: "O Instante de Origem",
+      label: "A fábrica",
+      body: [
+        "\"Mint condition\" descrevia originalmente moedas recém-saídas da casa da moeda — a fábrica onde o dinheiro é cunhado. A Sheldon Scale gradua moedas (e, por extensão, cartas) de 1 a 70, com Mint State 70 sendo a perfeição.",
+        "Na cultura do TCG, mint significa perfeito, impecável, exatamente como saiu do pacote."
+      ],
+      questions: [
+        "A fábrica é o momento da gênese. O logo pode evocar um carimbo, uma prensa, uma matriz — não industrial, mas como um selo de autenticidade?",
+        "\"Recém-saído da fábrica\" é o segundo antes da carta tocar o ar. O logo pode sugerir esse instante congelado de perfeição?",
+        "\"Mint\" também remete a dinheiro (\"valer uma fortuna\"). A folha pode sutilmente evocar o formato de uma moeda ou um selo?"
+      ]
+    },
+    {
+      tag: "espécime 04 — a sensação",
+      title: "O Frio Que Não Existe",
+      label: "A sensação",
+      body: [
+        "O mentol da hortelã ativa receptores de frio na pele e na boca. Você sente frescor em temperatura ambiente — uma sensação fantasma, frescor sem umidade, nitidez sem gelo.",
+        "Na cultura das cartas, descrevemos peças perfeitas com palavras táteis: bordas \"crisp\", superfície \"limpa\", cantos \"afiados\". A folha de hortelã é a origem literal dessa nitidez."
+      ],
+      questions: [
+        "Como é \"cool\" visualmente? Não temperatura — atitude. O logo pode ter uma nitidez meio sem esforço?",
+        "O estalo de um pacote sendo aberto. O crack de uma carta perfeita sendo puxada. O logo pode sugerir um lacre se rompendo, um frescor sendo revelado?",
+        "Mint + chocolate é contraste. O logo pode brincar com combinações inesperadas — orgânico + geométrico, macio + afiado?"
+      ]
+    },
+    {
+      tag: "espécime 05 — o colecionador",
+      title: "Combatendo a Entropia",
+      label: "O colecionador",
+      body: [
+        "A psicologia do colecionador é toda sobre preservar contra o tempo. Bordas amareladas, riscos, cantos batidos — são as digitais da entropia. Uma carta mint é uma que o tempo não tocou.",
+        "Culturas antigas usavam hortelã para preservar os mortos, mascarando a decomposição. Hortelã era proteção contra a dissolução."
+      ],
+      questions: [
+        "E se o logo sugerir encapsulamento — uma folha presa em âmbar, em gelo, num case? A carta e a folha querem as duas ser seladas contra o tempo.",
+        "O arquétipo do guardião: a Mint é guardiã de tesouros? O logo pode ter uma qualidade de escudo?",
+        "Cases PSA são retangulares, transparentes, preciosos. Folhas de hortelã são ovais, verdes, vivas. A tensão entre essas duas formas pode ser geradora."
+      ]
+    },
+    {
+      tag: "espécime 06 — o caçador",
+      title: "Garimpando Gemas",
+      label: "O caçador",
+      body: [
+        "O TCG é, no fundo, sobre a caça. Você abre pacotes esperando a chase card. Vasculha binders em feiras. Cava em bulk. A hortelã também é garimpada — colhida silvestre em margens de rio e campos úmidos.",
+        "Em Pokémon, tipo Planta representa natureza, crescimento e persistência. O logo pode unir a selvageria do garimpo com o cultivo de uma coleção."
+      ],
+      questions: [
+        "E se o logo sugerir estágios de crescimento — uma muda, uma folha, a planta cheia — espelhando a evolução de uma coleção?",
+        "O pull é um momento de descoberta. O logo pode sugerir algo sendo revelado — uma folha se desdobrando, uma carta emergindo?",
+        "Os símbolos de energia Planta em Pokémon são folhas estilizadas. A folha da Mint pode ecoar essa linguagem visual sem copiá-la?"
+      ]
+    },
+    {
+      tag: "espécime 07 — o anfitrião",
+      title: "A Mesa Que Acolhe",
+      label: "O anfitrião",
+      body: [
+        "Na Grécia antiga, anfitriões esfregavam folhas de hortelã sobre a mesa antes dos convidados chegarem. Na linguagem vitoriana das flores, hortelã simboliza virtude e calor de sentimento.",
+        "Uma loja de cartas não é só varejo — é um terceiro lugar. As pessoas vêm trocar histórias, jogar, compartilhar a dopamina de um bom pull."
+      ],
+      questions: [
+        "O logo pode sinalizar hospitalidade — não comércio agressivo, mas \"entra, a mesa já está posta\"?",
+        "O \"calor de sentimento\" é poderoso para um hobby feito de nostalgia e alegria. A marca pode parecer convidativa em vez de exclusiva?",
+        "E se a folha não for um troféu, mas uma oferenda?"
+      ]
+    },
+    {
+      tag: "espécime 08 — o alquimista",
+      title: "Essência & Valor",
+      label: "O alquimista",
+      body: [
+        "Alquimistas destilavam plantas para capturar seus óleos essenciais — a essência pura e concentrada. Uma carta mint é, do mesmo jeito, \"destilada\": despida de desgaste, reduzida à sua forma perfeita. \"Valer uma fortuna\" é a expressão que sobrou desse mundo.",
+        "O óleo essencial da hortelã é literalmente o valor extraído da planta. Uma carta graduada é o valor extraído do jogo."
+      ],
+      questions: [
+        "E se o logo sugerir destilação — uma gota, uma esfera, uma forma concentrada?",
+        "A transmutação de folha em ouro: pode haver uma qualidade metálica/dourada no logo que ainda pareça orgânica?",
+        "Raridade e essência: o que seu amigo está realmente vendendo? Não papelão — potencial, alegria, status, memória. O logo pode carregar isso?"
+      ]
+    }
+  ];
+
+  const indexWrap = document.getElementById("node-index");
+  const panelTag = document.getElementById("panel-tag");
+  const panelTitle = document.getElementById("panel-title");
+  const panelBody = document.getElementById("panel-body");
+  const panelQuestions = document.getElementById("panel-questions");
+  const starBtns = document.querySelectorAll(".star-btn");
+  const lines = document.querySelectorAll(".constellation-line");
+
+  nodes.forEach((n, i) => {
+    const chip = document.createElement("button");
+    chip.className = "node-chip";
+    chip.textContent = n.label;
+    chip.dataset.node = i;
+    chip.addEventListener("click", () => setActive(i));
+    indexWrap.appendChild(chip);
+  });
+
+  function setActive(i){
+    const n = nodes[i];
+    panelTag.textContent = n.tag;
+    panelTitle.textContent = n.title;
+    panelBody.innerHTML = n.body.map(p => `<p>${p}</p>`).join("");
+    panelQuestions.innerHTML = n.questions.map(q => `<li>${q}</li>`).join("");
+
+    starBtns.forEach(b => b.classList.toggle("is-active", b.dataset.node == i));
+    lines.forEach(l => l.classList.toggle("is-active", l.dataset.node == i));
+    document.querySelectorAll(".node-chip").forEach(c => c.classList.toggle("is-active", c.dataset.node == i));
+  }
+
+  starBtns.forEach(btn => {
+    btn.addEventListener("click", () => setActive(Number(btn.dataset.node)));
+  });
+
+  setActive(0);
+</script>
+
+</body>
+</html>
