@@ -8,6 +8,46 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,440;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  /* ---------- REFERÊNCIAS ---------- */
+  .refs{ background: var(--bg-deep); }
+  .refs-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--panel-line);
+    border: 1px solid var(--panel-line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .ref-card{
+    background: var(--panel);
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .ref-card:hover{ background: #16281d; }
+  .ref-domain{
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--mint-dim);
+  }
+  .ref-card:hover .ref-domain{ color: var(--mint); }
+  .ref-name{
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--ink);
+  }
+  .ref-desc{
+    font-size: 0.86rem;
+    color: var(--ink-dim);
+    margin: 0;
+  }  
 <style>
   :root{
     --bg: #0a120d;
@@ -472,7 +512,71 @@
     <p>É uma mitologia para habitar. Quando a história certa soar verdadeira, a forma aparece sozinha.</p>
   </div>
 </section>
+<section class="refs" id="referencias">
+  <div class="section-head">
+    <p class="eyebrow">04 — referências</p>
+    <h2>Onde buscar inspiração</h2>
+    <p>Arquivos, comunidades e blogs para olhar depois de decidir qual história da constelação vai guiar o logo.</p>
+  </div>
 
+  <div class="refs-grid">
+    <a class="ref-card" href="https://logosystem.co/" target="_blank" rel="noopener">
+      <span class="ref-domain">logosystem.co</span>
+      <span class="ref-name">Logo System</span>
+      <p class="ref-desc">Biblioteca curada com mais de 1.200 logos, com filtros por estilo, cor, setor e tipo. Tudo selecionado manualmente, sem IA.</p>
+    </a>
+    <a class="ref-card" href="https://www.logolounge.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">logolounge.com</span>
+      <span class="ref-name">LogoLounge</span>
+      <p class="ref-desc">Um dos maiores arquivos de logos do mundo, com milhares de exemplos. Referência clássica, com relatórios anuais de tendências.</p>
+    </a>
+    <a class="ref-card" href="https://logopond.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">logopond.com</span>
+      <span class="ref-name">Logopond</span>
+      <p class="ref-desc">Comunidade onde designers compartilham conceitos de logo. Ótimo para ideias criativas e diferentes estilos.</p>
+    </a>
+    <a class="ref-card" href="https://www.behance.net/" target="_blank" rel="noopener">
+      <span class="ref-domain">behance.net</span>
+      <span class="ref-name">Behance</span>
+      <p class="ref-desc">Plataforma de portfólio da Adobe. Mostra projetos completos de branding, com processo criativo e estratégia por trás do logo.</p>
+    </a>
+    <a class="ref-card" href="https://dribbble.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">dribbble.com</span>
+      <span class="ref-name">Dribbble</span>
+      <p class="ref-desc">Comunidade gigante de designers. Ótimo para ver tendências atuais e trabalhos criativos do mundo todo.</p>
+    </a>
+    <a class="ref-card" href="https://www.typewolf.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">typewolf.com</span>
+      <span class="ref-name">Typewolf</span>
+      <p class="ref-desc">Focado em tipografia. Mostra exemplos reais de uso de fontes, essencial para logotipos baseados em texto.</p>
+    </a>
+    <a class="ref-card" href="https://fontsinuse.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">fontsinuse.com</span>
+      <span class="ref-name">Fonts In Use</span>
+      <p class="ref-desc">Arquivo independente que documenta como diferentes fontes são aplicadas em projetos reais, incluindo logos.</p>
+    </a>
+    <a class="ref-card" href="https://www.logofolio.co/" target="_blank" rel="noopener">
+      <span class="ref-domain">logofolio.co</span>
+      <span class="ref-name">Logofolio</span>
+      <p class="ref-desc">Diretório curado e gratuito de logos, com opção de criar moodboards para organizar referências.</p>
+    </a>
+    <a class="ref-card" href="https://logobook.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">logobook.com</span>
+      <span class="ref-name">Logobook</span>
+      <p class="ref-desc">Arquivo minimalista com logos apenas em preto e branco, ótimo para estudar estrutura e forma das marcas.</p>
+    </a>
+    <a class="ref-card" href="https://brandinreview.com/" target="_blank" rel="noopener">
+      <span class="ref-domain">brandinreview.com</span>
+      <span class="ref-name">Brand in Review</span>
+      <p class="ref-desc">Blog com curadoria reflexiva de trabalhos de branding, explicando o processo e a história por trás de cada projeto.</p>
+    </a>
+    <a class="ref-card" href="https://bpando.org/" target="_blank" rel="noopener">
+      <span class="ref-domain">bpando.org</span>
+      <span class="ref-name">BP&O</span>
+      <p class="ref-desc">Blog especializado em branding, embalagem e design, com análises críticas sobre projetos de identidade visual.</p>
+    </a>
+  </div>
+</section>
 <footer>mint tcg store · mapa de marca · uso interno</footer>
 
 <script>
